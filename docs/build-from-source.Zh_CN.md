@@ -1,32 +1,31 @@
-# Build DragonflyDB From Source
+# 从源代码构建 DragonflyDB
 
-## Running the server
+## 运行服务
 
-Dragonfly runs on linux. We advise running it on linux version 5.11 or later
-but you can also run Dragonfly on older kernels as well.
+Dragonfly 在 Linux 上运行。我们建议在 Linux 5.11 或更高版本上运行它，但您也可以在较旧的内核上运行 Dragonfly。
 
-> :warning: **Dragonfly releases are compiled with LTO (link time optimization)**:
-  Depending on the workload this can notably improve performance. If you want to
-  benchmark Dragonfly or use it in production, you should enable LTO by giving
-  `blaze.sh` the `-DCMAKE_CXX_FLAGS="-flto"` argument.
 
-## Step 1 - install dependencies
+> :warning: **Dragonfly 版本使用LTO (link time optimization)进行编译**:
+  根据工作负载，这可以显着提高性能。 如果你想对Dragonfly进行基准测试或者在生产中
+  使用它，你应该给予`blaze.sh` 脚本`-DCMAKE_CXX_FLAGS="-flto"` 参数来开启LTO.
 
-On Debian/Ubuntu:
+## 第 1 步 - 安装依赖项
+
+在 Debian/Ubuntu 环境:
 
 ```bash
 sudo apt install ninja-build libunwind-dev libboost-fiber-dev libssl-dev \
      autoconf-archive libtool cmake g++ libzstd-dev bison libxml2-dev
 ```
 
-On Fedora:
+在 Fedora 环境:
 
 ```bash
 sudo dnf install -y automake boost-devel g++ git cmake libtool ninja-build libzstd-devel  \
      openssl-devel libunwind-devel autoconf-archive patch bison libxml2-devel libstdc++-static
 ```
 
-On openSUSE:
+在 openSUSE 环境:
 
 ```bash
 sudo zypper install automake boost-devel gcc-c++ git cmake libtool ninja libzstd-devel  \
@@ -34,38 +33,38 @@ sudo zypper install automake boost-devel gcc-c++ git cmake libtool ninja libzstd
      libboost_context-devel libboost_system-devel
 ```
 
-## Step 2 - clone the project
+## 第 2 步 - 克隆项目
 
 ```bash
 git clone --recursive https://github.com/dragonflydb/dragonfly && cd dragonfly
 ```
 
-## Step 3 - configure & build it
+## 第 3 步 - 配置 & 构建
 
 ```bash
-# Configure the build
+# 配置构建
 ./helio/blaze.sh -release
 
-# Build
+# 构建
 cd build-opt && ninja dragonfly
 
 ```
 
-## Step 4 - voilà
+## 第 4 步 - 启动实例
 
 ```bash
-# Run
+# 运行命令
 ./dragonfly --alsologtostderr
 
 ```
 
-Dragonfly DB will answer to both `http` and `redis` requests out of the box!
+Dragonfly DB 可以快速响应 `http` 和 `redis` 请求！
 
-You can use `redis-cli` to connect to `localhost:6379` or open a browser and visit `http://localhost:6379`
+你可以使用 `redis-cli` 客户端去连接 `localhost:6379` 或者打开浏览器去访问 `http://localhost:6379`
 
-## Step 5
+## 步骤 5
 
-Connect with a redis client
+通过redis客户端连接服务
 
 ```bash
 redis-cli
@@ -78,6 +77,6 @@ OK
 127.0.0.1:6379>
 ```
 
-## Step 6
+## 步骤 6
 
-Continue being great and build your app with the power of DragonflyDB!
+继续发挥，利用 DragonflyDB 的强大功能构建您的应用程序！
