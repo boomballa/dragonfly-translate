@@ -45,39 +45,19 @@ Dashtable是Dragonfly中非常重要的数据结构。本文档解释了它是�
 
 ### Segment放大
 
-Below you can see the diagram of a segment. It comprised of regular buckets and stash buckets. Each bucket has `k` slots and each slot can host a key-value record.
+下面您可以看到一个表述segment的图.他由常规bucket和存储bucket组成. 每个bucket包含`k` 个slot，每个slot可以持有一个key-value记录.
 
 ![Segment](./dashsegment.svg)
 
-In our implementation, each segment has 56 regular buckets, 4 stash buckets and each bucket contains 14 slots. Overall, each dashtable segment has capacity to host 840 records. When an item is inserted into a segment, DT first determines its home bucket based on item's hash value. The home bucket is one of 56 regular buckets that reside in the table. Each bucket has 14 available slots and the item can reside in any free slot. If the home bucket is full,
-then DT tries to insert to the regular bucket on the right. And if that bucket is also full,
-it tries to insert into one of 4 stash buckets. These are kept deliberately aside to gather
-spillovers from the regular buckets. The segment is "full" when the insertion fails, i.e. the home bucket and the neighbour bucket and all 4 stash buckets are full. Please note that segment is not necessary at full capacity, it can be that other buckets are not yet full, but unfortunately, that item can go only into these 6 buckets,
-so the segment contents must be split. In case of split event, DT creates a new segment,
-adds it to the directory and the items from the old segment partly moved to the new one,
- and partly rebalanced within the old one. Only two segments are touched during the split event.
+在我们的实现中,每个segment（段）包含56个常规bucket，4个存储bucket，每个bucket包含14个slot（槽）。总体来说, 每个dashtable的segment可以容纳840条记录。当一个item 被插入到segment中时， DT首先根据item的hash值确定它的home bucket。home bucket是segment中56个常规bucket之一。 每个bucket有14个可用的slot，并且item 可以驻留在任何空闲的slot中。如果home bucket满了,则DT会尝试插入到右侧的常规bucket中。 如果那个bucket也满了，它会尝试插入到4个存储bucket中的其中一个中去。
+这些4个存储桶被故意放在一边，就是为了收集常规桶中存储不下溢出的数据。 当插入失败时，segment是满的，即home bucket和相邻的bucket还有所有的4个存储buckets都已经满了。 这里请注意一下，segment不必满容量运行，可能其他bucket还没有满，但是不幸的是，item只能插入则6个buckets，因此必须拆分segment内容，如果发生拆分事件， DT会创建一个新的segment，将它添加到目录中，然后旧segment中的item会有部分被转移到新的segment中，并且重新均衡旧segment。在分割事件中仅涉及两个segment。
 
-Now we can explain why seemingly similar data-structure has an advantage over a classic hashtable
-in terms of memory and cpu.
+现在我们可以解释为什么看似相似的数据结构在内存和 CPU 方面比经典哈希表具有优势。
 
- 1. Memory: we need `~N/840` entries or `8N/840` bytes in dashtable directory to host N items on average.
- Basically, the overhead of directory almost disappears in DT. Say for 1M items we will
- need ~1200 segments or 9600 bytes for the main array. That's in contrast to RD where
- we will need a solid `8N` bucket array overhead - no matter what.
- For 1M items, it will obviously be 8MB. In addition, dash segments use open addressing collision
- scheme with probing, that means that they do not need anything like `dictEntry`.
- Dashtable uses lots of tricks to make its own metadata small. In our implementation,
- the average `tax` per entry is short of 20 bits compared to 64 bits in RD (dictEntry.next).
- In addition, DT incremental resize does not allocate a bigger table - instead
- it adds a single segment per split event. Assuming that key/pair entry is two 8
- byte pointers like in RD, then DT requires $16N + (8N/840) + 2.5N + O(1) \approx 19N$
- bytes at 100% utilization. This number is very close to the optimum of 16 bytes.
- In unlikely case when all segments just doubled in size, i.e.
- DT is at 50% of utilization we may need $38N$ bytes per item.
- In practice, each segment grows independently from others,
- so the table has smooth memory usage of 22-32 bytes per item or **6-16 bytes overhead**.
+ 1. 内存： 我们需要dashtable目录中的 `~N/840` 个entry或者`8N/840`字节来平均容纳N个item。基本上，目录的开销在DT中都消失了。 假设对于1M items我们需要约 ~1200个segment或者9600字节作为主array(数组)。这与RD形成鲜明对比，在RD中我们需要消耗 `8N` 个bucket array开销 - 无论如何。对于1M的item，很显然是 8MB。此外， dash segment使用带有探测的开放寻址冲突方案，这意味着它不需要任何像`dictEntry`的东西。Dashtable使用了很多技巧来缩小自己的元数据，在我们的实现中，与RD (dictEntry.next)中的 64 bits相比，每个entry的平均长度 `tax` 不足20 bits。除此之外, DT 增量调整大小不会分配一个更大的表 - 而是在每个拆分事件中增加一个segment。 假设key/pair entry为两个8字节的指针（如RD中所示），而DT在100%利用率的时候需要$16N + (8N/840) + 2.5N + O(1) \approx 19N$ 字节数。这个数字十分接近 16 字节的最佳值。
+ 在不太可能的情况下，当所有的egment的大小都翻倍的情况下，即DT在50%利用率的时候，我们每个item可能需要 $38N$ 字节。实际上，每个segment 独立于其他segment增长，所以该table具有每个项目22-32字节或者 **6-16 字节的开销**.
 
- 1. Speed: RD requires an allocation for dictEntry per insertion and deallocation per deletion. In addition, RD uses chaining, which is cache unfriendly on modern hardware. There is a consensus in engineering and research communities that classic chaining schemes are slower than open addressing alternatives.
+ 2. 速度： RD requires an allocation for dictEntry per insertion and deallocation per deletion. In addition, RD uses chaining, which is cache unfriendly on modern hardware. There is a consensus in engineering and research communities that classic chaining schemes are slower than open addressing alternatives.
  Having said that, DT also needs to go through a single level of indirection when
  fetching a segment pointer. However, DT's directory size is relatively small:
  in the example above, all 9K could resize in L1 cache. Once the segment is determined,
