@@ -1,52 +1,49 @@
 
-# Dashtable in Dragonfly
+# Dragonfly中的Dashtable
 
-Dashtable is a very important data structure in Dragonfly. This document explains
-how it fits inside the engine.
+Dashtable是Dragonfly中非常重要的数据结构。本文档解释了它是如何适配在引擎内的。
 
-Each selectable database holds a primary dashtable that contains all its entries. Another instance of Dashtable holds an optional expiry information, for keys that have TTL expiry on them. Dashtable is equivalent to Redis dictionary but have some wonderful properties that make Dragonfly memory efficient in various situations.
+每个selectable数据库都包含一个主dashtable，它包含所有的数据条目. 另一个Dashtable实例包含一个可选的到期时间信息, 用于过期那些具有TTL的key. Dashtable 相当于Redis的字典，但是它具有一些很棒的特性，使 Dragonfly内存效率在任何情况下都高效.
 
 ![Database Overview](./db.svg)
 
-## Redis dictionary
+## Redis字典
 
-*“All problems in computer science can be solved by another level of indirection”*
+*“计算机科学领域的任何问题都可以通过增加一个间接的中间层来解决”*
 
-This section is a brief refresher of how redis dictionary (RD) is implemented.
-We shamelessly "borrowed" a diagram from [this blogpost](https://codeburst.io/a-closer-look-at-redis-dictionary-implementation-internals-3fd815aae535), so if you want a deep-dive, you can read the original article.
+本节简要回顾一下redis字典（RD）的实现方式.
+我们很羞愧的从 [这篇博文](https://codeburst.io/a-closer-look-at-redis-dictionary-implementation-internals-3fd815aae535)中“借用”了一张图表, 所以你想深入了解，你可以阅读原始文章。
 
-Each `RD` is in fact two hash-tables (see `ht` field in the diagram below). The second instance is used for incremental resizes of the dictionary.
-Each hash-table `dictht` is implemented as a [classic hashtable with separate chaining](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining). `dictEntry` is the link-list entry that wraps each key/value pair inside the table. Each dictEntry has three pointers and takes up 24 bytes of space. The bucket array of `dictht` is resized at powers of two, so usually its utilization is in [50, 100] range.
+每个 `RD` 实际上都是两个哈希表 (参见下图中的`ht`字段 ). 第二个实例用于增量调整字典的大小。
+每一个`dictht`哈希表被实现为 [链接法的经典哈希表](https://en.wikipedia.org/wiki/Hash_table#Separate_chaining). `dictEntry` 是包装表内每个Key/Value对的链接列表条目. 每个dictEntry有3个指针，占用24字节的空间。`dictht` 的bucket数组以 2 的幂调整大小，因此通常其利用率在 [50, 100] 范围内。
 
 ![RD structure](https://miro.medium.com/max/1400/1*gNc8VzCknWRxXTBP9cVEHQ.png)
 
 <br>
 
-Let's estimate the overhead of `dictht` table inside RD.
+让我们估算一下 `dictht` 表在RD内的开销.
 
-*Case 1*: it has `N` items at 100% load factor, in other words, buckets count equals to number of items. Each bucket holds a pointer to dictEntry, i.e. it's 8 bytes. In total we need: $8N + 24N = 32N$ bytes per record. <br>
-*Case 2*: `N` items at 75% load factor, in other words, the number of buckets is 1.33 higher than number of items. In total we need: $N\*1.33\*8 + 24N \approx 34N$ bytes per record. <br>
-*Case 3*: `N` items at 50% load factor, say right after table growth. Number of buckets is twice the number of items, hence we need $N\*2\*8 + 24N = 40N$ bytes per record.
+*案例 1*: 在负载为100%的时候有 `N` 个item , 换句话说,bucket总数等于item总数. 每个bucket保存一个指向 dictEntry 的指针，即它有 8 个字节。 我们总共需要: $8N + 24N = 32N$ 字节每条记录。 <br>
+*案例 2*: 在负载为75%的时候有 `N` 个item, 换句话说, bucket的数量是item数量的1.33倍。 我们总共需要: $N\*1.33\*8 + 24N \approx 34N$ 字节每条记录。 <br>
+*案例 3*: 在负载为50%的时候有 `N` 个item, 即在表增长之后。bucket的数量是items的两倍, 因此我们需要: $N\*2\*8 + 24N = 40N$ 字节每条记录.
 
-In best possible case we need at least 16 bytes to store key/value pair into the table, therefore
-the overhead of `dictht` is on average about 16-24 bytes per item.
+在最好的情况下，我们至少需要16字节去存储表里的 key/value 键值对, 因此每个item的开销`dictht` 平均约为16-24字节.
 
-Now lets take incremental growth into account. When `ht[0]` is full (i.e. RD needs to migrate data to a bigger table), it will instantiate a second temporary instance `ht[1]` that will hold additional 2*N buckets. Both instances will live in parallel until all data is migrated to `ht[1]` and then `ht[0]` bucket array will be deleted. All this complexity is hidden from a user by well engineered API of RD. Lets combine case 3 and case 1 to analyze memory spike at this point: `ht[0]` holds `N` items and it is fully utilized. `ht[1]` is allocated with `2N` buckets.
-Overall, the memory needed during the spike is $32N + 16N=48N$ bytes.
+现在让我们把增量增长考虑进去。 当 `ht[0]` 满了 (即 RD 需要迁移数据到更大的表)的时候, 它将实例化第二个临时实例， `ht[1]` 它将容纳额外的2*N个bucket. 两个实例将并行存在，直到所有数据都被迁移到 `ht[1]`，然后 `ht[0]` bucket数组将被删除。 所有这些复杂性都通过精心设计的 RD API 对用户隐藏起来。 让我们结合案例 3 和案例 1 来分析此时的内存峰值： `ht[0]` 持有 `N` 个item并且它被充分利用。 `ht[1]` 被分配了`2N`个bucket.总体而言，峰值期间所需的内存为 $32N + 16N=48N$字节
 
-To summarize, RD requires between **16-32 bytes overhead**.
+总而言之, RD 需要 **16-32字节的开销**.
 
 ## Dash table
 
-[Dashtable](https://arxiv.org/abs/2003.07302) is an evolution of an algorithm from 1979 called [extendible hashing](https://en.wikipedia.org/wiki/Extendible_hashing).
+[Dashtable](https://arxiv.org/abs/2003.07302) 是1979年一种被称为 [extendible hashing](https://en.wikipedia.org/wiki/Extendible_hashing)可扩展哈希的演变.
 
-Similarly to a classic hashtable, dashtable (DT) also holds an array of pointers at front. However, unlike with classic tables, it points to `segments` and not to linked lists of items. Each `segment` is, in fact, a mini-hashtable of constant size. The front array of pointers to segments is called `directory`. Similarly to a classic table, when an item is inserted into a DT, it first determines the destination segment based on item's hashvalue. The segment is implemented as a hashtable with open-addressed hashing scheme and as I said - constant in size. Once segment is determined, the item inserted into one of its buckets. If an item was successfully inserted, we finished, otherwise, the segment is "full" and needs splitting. The DT splits the contents of a full segment in two segments, and the additional segment is added to the directory. Then it tries to reinsert the item again. To summarize, the classic chaining hash-table is built upon a dynamic array of linked-lists while dashtable is more like a dynamic array of flat hash-tables of constant size.
+与经典的哈希表类似，dashtable (DT) 也在前面保存了一个指针数组。 然而， 与经典表不同， 它指向 `segments` 而不指向item的链接列表. 每个 `segment` 事实上，每个都是一个大小恒定的迷你哈希表。 前面指向segments的数组称为 `directory`。与经典表相似， 当一个item被插入DT中时， 它首先通过item的hash值确定segment。 该segment被实现为一个具有开放寻址散列方案的hashtable，并且正如我所说的， - 大小恒定. 一旦确定了segment，该item 就会被插入到其bucket中。 如果成功插入一个item， 我们就完成了，否则，该segment已满并且需要分裂。 DT 会把一个满了的segment内容拆分成两个segment, 并将新增的segment添加到directory中。 然后它会尝试再次插入该item。总而言之，经典的链式哈希表（chaining hash-table） 是建立在动态链接数组之上的，而dashtable 更像是恒定大小的平面哈希表（flat hash-table）的动态数组。
 
 ![Dashtable Diagram](./dashtable.svg)
 
-In the diagram above you can see how dashtable looks like. Each segment is comprised of `K` buckets. For example, in our implementation a dashtable has 60 buckets per segment (it's a compile-time parameter that can be configured).
+在上图中，您可以看到dashtable长什么样子。 每个segment都由 `K` 个bucket组成。 例如，在我们的实现中，一个dashtable的每个segment有60个bucket组成（这是一个可以配置的编译时参数）。
 
-### Segment zoom-in
+### Segment放大
 
 Below you can see the diagram of a segment. It comprised of regular buckets and stash buckets. Each bucket has `k` slots and each slot can host a key-value record.
 
