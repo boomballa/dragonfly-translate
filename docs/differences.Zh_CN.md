@@ -1,19 +1,16 @@
-# Differences with Redis
+# Dragonfly与Redis的区别
 
-## String lengths, indices.
+## 字符串长度、索引
 
-String sizes are limited to 256MB.
-Indices (say in GETRANGE and SETRANGE commands) should be signed 32 bit integers in range
-[-2147483647, 2147483648].
+字符串大小限制为 256MB。
+索引（比如在 GETRANGE 和 SETRANGE 命令中）应该是 [-2147483647, 2147483648] 范围内的有符号 32 位整数。
 
-### String handling.
+### 字符串处理
 
-SORT does not take any locale into account.
+SORT 不考虑任何地区、地域设置。
 
-## Expiry ranges.
-Expirations are limited to 8 years. For commands with millisecond precision like PEXPIRE or PSETEX,
-expirations greater than 2^28ms are quietly rounded to the nearest second losing precision of less than 0.001%.
+## 过期闲置
+有效期被限制为8年。 F。对于像 PEXPIRE 或 PSETEX 这样具有毫秒精度的命令，大于 2^28ms 的过期时间会悄悄舍入到最接近的秒，损失精度小于 0.001%。
 
 ## Lua
-We use lua 5.4.4 that has been released in 2022.
-That means we also support [lua integers](https://github.com/redis/redis/issues/5261).
+我们使用 2022 年发布的 lua 5.4.4。这意味着我们也支持 [lua integers](https://github.com/redis/redis/issues/5261).
