@@ -1,20 +1,19 @@
-# Dragonfly Frequently Asked Questions
+# Dragonfly 常见问题解答
 
-- [What is the license model of Dragonfly? Is it an open source?](#what-is-the-license-model-of-dragonfly-is-it-an-open-source)
-- [Can I use dragonfly in production?](#can-i-use-dragonfly-in-production)
-- [Dragonfly provides vertical scale, but we can achieve similar throughput with X nodes in a Redis cluster.](#dragonfly-provides-vertical-scale-but-we-can-achieve-similar-throughput-with-x-nodes-in-a-redis-cluster.)
-- [What if I have some commands that are missing?](#what_if_i_have_some_commands_that_are_missing)
+- [Dragonfly的许可模式是什么？它是开源的吗？](#dragonfly的许可模式是什么？它是开源的吗？)
+- [我可以在生产中使用 Dragonfly 吗？](#我可以在生产中使用-dragonfly-吗？)
+- [Dragonfly 提供了垂直扩展，但我们可以通过 Redis cluster中的 X 个节点实现类似的吞吐量。](#dragonfly-提供了垂直扩展，但我们可以通过-redis-cluster中的-x-个节点实现类似的吞吐量。)
+- [如果我缺少一些命令怎么办？](#如果只有-dragonfly-有这个命令我肯定会使用它)
 
+## Dragonfly的许可模式是什么？它是开源的吗？
+Dragonfly 是根据 [BSL 1.1](../LICENSE.md) (商业源代码许可证)。 我们认为 BSL 许可证比类似 AGPL 的许可证更宽松。一般来说，这意味着只要您不销售与 Dragonfly 或内存数据存储直接相关的服务，Dragonfly 的代码就可以免费使用和自由更改。
+我们跟随 Elastic、Redis、MongoDB、Cockroach Labs、Redpanda Data 等其他科技公司的趋势，保护我们为我们正在构建的软件提供服务和支持的权利。
 
-## What is the license model of Dragonfly? Is it an open source?
-Dragonfly is released under [BSL 1.1](../LICENSE.md) (Business Source License). We believe that a BSL license is more permissive than AGPL-like licenses. In general terms, it means that dragonfly's code is free to use and free to change as long as you do not sell services directly related to dragonfly or in-memory datastores.
-We followed the trend of other technological companies like Elastic, Redis, MongoDB, Cockroach labs, Redpanda Data to protect our rights to provide service and support for the software we are building.
+## 我可以在生产中使用 Dragonfly 吗？
+就许可证而言，只要您不将 Dragonfly 提供为托管服务，您就可以在生产中自由使用 Dragonfly。从代码成熟度的角度来看，Dragonfly的代码都覆盖了单元测试。然而，与任何新软件一样，有些用例很难测试和预测。我们建议您在考虑生产使用之前在 Dragonfly 上运行您自己的特定用例几天。
 
-## Can I use dragonfly in production?
-License wise you are free to use dragonfly in your production as long as you do not provide dragonfly as a managed service. From a code maturity point of view, Dragonfly's code is covered with unit testing. However as with any new software there are use cases that are hard to test and predict. We advise you to run your own particular use case on dragonfly for a few days before considering production usage.
+## Dragonfly 提供了垂直扩展，但我们可以通过 Redis cluster中的 X 个节点实现类似的吞吐量。
+Dragonfly 以最佳方式利用底层硬件。这意味着它可以在小型 8GB 实例上运行，并可垂直扩展到具有 64 核的大型 768GB 机器。这种多功能性可以大大降低在单个节点上运行集群工作负载的复杂性，从而节省硬件资源和成本。更重要的是，它降低了处理多节点集群的复杂性（总拥有成本）。此外，Redis 集群模式对多键和事务操作施加了一些限制，而 Dragonfly 提供了与单节点 Redis 相同的语义。
 
-## Dragonfly provides vertical scale, but we can achieve similar throughput with X nodes in a Redis cluster.
-Dragonfly utilizes the underlying hardware in an optimal way. Meaning it can run on small 8GB instances and scale vertically to large 768GB machines with 64 cores. This versatility allows to drastically reduce complexity of running cluster workloads to a single node saving hardware resources and costs. More importantly, it reduces the complexity (total cost of ownership) of handling the multi-node cluster. In addition, Redis cluster-mode imposes some limitations on multi-key and transactional operations while Dragonfly provides the same semantics as single node Redis.
-
-## If only Dragonfly had this command I would use it for sure
-Dragonfly implements ~130 Redis commands which we think represent a good coverage of the market. However this is not based empirical data. Having said that, if you have commands that are not covered, please feel free to open an issue for that or vote for an existing issue. We will do our best to prioritise those commands according to their popularity.
+## 如果只有 Dragonfly 有这个命令我肯定会使用它
+Dragonfly 实现了约 130 个 Redis 命令，我们认为这些命令很好地覆盖了市场。然而，这并不是基于经验数据。话虽如此，如果您有未涵盖的命令，请随时为此打开一个问题或为现有问题投票。我们将尽力根据这些命令的受欢迎程度确定其优先级。
