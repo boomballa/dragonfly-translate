@@ -8,7 +8,7 @@
 
 # Quick Start
 
-从“docker run”开始是启动和运行 DragonflyDB 的最简单方法。
+从 “docker run” 开始是启动和运行 DragonflyDB 的最简单方法。
 
 如果你的电脑上面没有 docker， 先 [安装 Docker](https://docs.docker.com/get-docker/) ，然后再继续。
 
