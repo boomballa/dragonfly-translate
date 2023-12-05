@@ -6,26 +6,26 @@
 </p>
 
 
-# Quick Start
+# 快速开始
 
-The easiest way to get started with Dragonfly is with Docker.
+开始使用 Dragonfly 的最简单方法是使用 Docker。
 
-## Deployment Method
+## 部署方式
 
-First, choose a deployment method.
+首先，选择一个部署方式。
 
-If you are new to Dragonfly, we recommend the [DragonflyDB Docker Quick Start Guide](/docs/quick-start/)
+如果你是刚刚接触 Dragonfly， 我们推荐 [ Docker快速部署DragonflyDB指引](/docs/quick-start/)
 
-Other options:
+其他选项：
 
 ### - [Docker Compose](/contrib/docker/)
 
 ### - [Helm Chart for Kubernetes](/contrib/charts/dragonfly/)
 
 
-# Learn About DragonflyDB
-## [FAQ](/docs/faq.md)
+# 学习关于 DragonflyDB 的一些知识
+## [FAQ](/docs/faq.Zh_CN.md)
 
-## [Differences Between DragonflyDB and Redis](/docs/differences.md)
+## [Differences Between DragonflyDB and Redis](/docs/differences.Zh_CN.md)
 
 ## [API Commands Reference](https://dragonflydb.io/docs/category/command-reference)
