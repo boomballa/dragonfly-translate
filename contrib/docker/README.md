@@ -7,13 +7,13 @@
 
 
 
-# Dragonfly DB with Docker Compose
+# Dragonfly DB 与 Docker Compose
 
-This guide will have you up running DragonflyDB with `docker-compose` in just a few minutes.
+本指南将帮助您通过使用 `docker-compose`  在短短的几分钟内运行DragonflyDB。
 
-| This guide assumes you have `docker` and `docker-compose` installed on your machine. If not, [Install Docker](https://docs.docker.com/get-docker/) and [Install Docker Compose](https://docs.docker.com/compose/install/) before continuing.
+| 指南假设您已将 `docker` 和 `docker-compose` 安装在您的计算机上。 如果没有，先[安装 Docker](https://docs.docker.com/get-docker/) 和 [安装 Docker Compose](https://docs.docker.com/compose/install/) ，然后再继续。
 
-## Step 1
+## 步骤 1
 
 ```bash
 # Download Official Dragonfly DB Docker Compose File
@@ -30,15 +30,15 @@ docker ps | grep dragonfly
 docker logs -f docker_dragonfly_1
 ```
 
-Dragonfly DB will answer to both `http` and `redis` requests out of the box!
+Dragonfly 数据库将立即响应 `http` 和 `redis` 两种请求。
 
-You can use `redis-cli` to connect to `localhost:6379` or open a browser and visit `http://localhost:6379`
+您可以使用 `redis-cli` 来连接 `localhost:6379`或者打开浏览器访问 `http://localhost:6379`
 
-## Step 2
+## 步骤 2
 
-Connect with a redis client.
+与 Redis 客户端连接。
 
-From a new terminal:
+开启一个新的终端：
 
 ```bash
 redis-cli
@@ -51,20 +51,20 @@ OK
 127.0.0.1:6379> 
 ```
 
-## Step 3
+## 步骤 3
 
-Continue being great and build your app with the power of DragonflyDB!  
+继续加油，利用 DragonflyDB 的强大功能构建您的应用程序！
 
-## Tuning Dragonfly DB
-If you are attempting to tune Dragonfly DB for performance, consider `NAT` performance costs associated with containerization.  
-> ## Performance Tuning
+## 调试 Dragonfly 数据库
+如果你尝试去调试 Dragonfly 数据库的性能， 请考虑 `NAT` 与容器化相关的性能成本。
+> ## 性能调优
 > ---
-> In `docker-compose`, there is a meaningful difference between an `overlay` network(which relies on docker `NAT` traversal on every request) and using the `host` network(see [`docker-compose.yml`](https://github.com/dragonflydb/dragonfly/blob/main/contrib/docker/docker-compose.yml)).  
+> 在 `docker-compose`中， 一个 `overlay` 网络(每个请求都在依赖 docker `NAT` 遍历) 和一个使用 `host` 网络(请参阅 [`docker-compose.yml`](https://github.com/dragonflydb/dragonfly/blob/main/contrib/docker/docker-compose.yml))，两者之间存在着意义上的不同。
 > &nbsp;  
-> Fore more information, see the [official docker-compose network_mode Docs](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode)  
+> 更多信息，请参阅 [official docker-compose network_mode Docs](https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode)  
 > &nbsp;  
 
-### More Build Options
-- [Docker Quick Start](/docs/quick-start/)
-- [Kubernetes Deployment with Helm Chart](/contrib/charts/dragonfly/)
-- [Build From Source](/docs/build-from-source.md)
+### 更多构建选项
+- [Docker 快速入门](/docs/quick-start/)
+- [ 使用 Helm Chart部署 Kubernetes](/contrib/charts/dragonfly/)
+- [从源代码开始构建](/docs/build-from-source.md)

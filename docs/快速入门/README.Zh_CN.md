@@ -6,7 +6,7 @@
 </p>
 
 
-# Quick Start
+# 快速入门
 
 从 “docker run” 开始是启动和运行 DragonflyDB 的最简单方法。
 
