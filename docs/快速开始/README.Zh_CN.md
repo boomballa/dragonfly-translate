@@ -8,36 +8,35 @@
 
 # Quick Start
 
-Starting with `docker run` is the simplest way to get up and running with DragonflyDB.
+从“docker run”开始是启动和运行 DragonflyDB 的最简单方法。
 
-If you do not have docker on your machine, [Install Docker](https://docs.docker.com/get-docker/) before continuing.
+如果你的电脑上面没有 docker， 先 [安装 Docker](https://docs.docker.com/get-docker/) ，然后再继续。
 
-## Step 1
+## 步骤 1
 
-### On linux
+### 在 linux 上
 
 ```bash
 docker run --network=host --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly
 ```
 
-### On macOS
+### 在 macOS 上
 
-_`network=host` doesn't work well on macOS, see [this issue](https://github.com/docker/for-mac/issues/1031)_
+_`network=host` 在 macOS上面运行不是很友好， 查看 [这个问题](https://github.com/docker/for-mac/issues/1031)_
 
 ```bash
 docker run -p 6379:6379 --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly
 ```
 
-Dragonfly DB will answer to both `http` and `redis` requests out of the box!
+Dragonfly 数据库会立即响应 `http` 和 `redis` 这两种请求。
 
-You can use `redis-cli` to connect to `localhost:6379` or open a browser and visit `http://localhost:6379`
+你可以使用 `redis-cli` 去连接 `localhost:6379` 或者打开浏览器访问 `http://localhost:6379`
 
-**NOTE**: On some configurations, running with the `docker run --privileged ...` flag can fix some
-initialization errors.
+**注意**: 在某些配置上， 运行 `docker run --privileged ...` 命令使用此参数可以修复一些初始化错误。
 
-## Step 2
+## 步骤 2
 
-Connect with a redis client
+与redis客户端连接
 
 ```bash
 redis-cli
@@ -50,14 +49,13 @@ OK
 127.0.0.1:6379>
 ```
 
-## Step 3
+## 步骤 3
 
-Continue being great and build your app with the power of DragonflyDB!
+继续加油，利用 DragonflyDB 的强大功能构建您的应用程序！
 
-## Known issues
+## 已知的问题
 
-
-## More Build Options
-- [Docker Compose Deployment](/contrib/docker/)
-- [Kubernetes Deployment with Helm Chart](/contrib/charts/dragonfly/)
-- [Build From Source](/docs/build-from-source.md)
+## 更多构建选项
+- [Docker Compose部署](/contrib/docker/)
+- [使用 Helm Chart进行 Kubernetes 部署](/contrib/charts/dragonfly/)
+- [通过源代码构建](/docs/build-from-source.md)
