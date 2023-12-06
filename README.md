@@ -19,7 +19,7 @@ Dragonfly是一种针对现代应用程序负荷需求而构建的内存数据�
 ## 目录
 
 - [基准测试](#基准测试)
-- [快速入门](https://github.com/boomballa/dragonfly-translate/tree/main/docs/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8)
+- [快速入门](../doc/快速入门)
 - [配置方法](#配置方法)
 - [开发路线和开发现状](#开发路线和开发现状)
 - [设计决策](#设计决策)
