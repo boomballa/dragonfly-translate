@@ -1,5 +1,5 @@
 # 宣布 Dragonfly Kubernetes Operator 全面可用
-![image](../image/qTvbdy1dSYVqJL82gyAluN48op4s6TPRrWyEyzxiSY8.png)
+![image](../images/qTvbdy1dSYVqJL82gyAluN48op4s6TPRrWyEyzxiSY8.png)
 
 ## 介绍
 我们很高兴地宣布，Dragonfly 的 Kubernetes Operator 现已全面推出，这使得在 Kubernetes 上运行和管理 Dragonfly 变得简单、轻松。Dragonfly 是专为现代云工作负载构建的数据存储，而 Kubernetes 是现代云工作负载的领先编排引擎，非常适合那些希望构建弹性、可靠和高性能应用程序的人。

@@ -1,5 +1,5 @@
 # Dragonfly 内存数据库现在支持复制以实现高可用性
-![image](../image/tijrR6u5OP6U3C5b5rc2mHeYLRwz9F5Eofvzzn49gEM.png)
+![image](../images/tijrR6u5OP6U3C5b5rc2mHeYLRwz9F5Eofvzzn49gEM.png)
 
 Dragonfly 是一种高性能内存数据库，可以作为 Redis 的直接替代品。Dragonfly 1.0 版本已做好生产准备，包括数据库复制，可以轻松从 Redis 迁移并适合高可用性部署。
 
@@ -24,12 +24,12 @@ Dragonfly 使用一种[无​​共享架构](https://en.wikipedia.org/wiki/Shar
 
 为了开始复制，会发生握手动作，其中在副本和主服务器之间打开每个[分片](https://en.wikipedia.org/wiki/Shard_(database_architecture))线程的连接，以将数据发送到副本。
 
-![image](../image/nLdeSC0V0_V2JeLaAvnTDqmhBpxaaDKtbfQ5qm45rWY.png)
+![image](../images/nLdeSC0V0_V2JeLaAvnTDqmhBpxaaDKtbfQ5qm45rWY.png)
 
 ####### 副本与主节点建立连接并交换元数据详细信息
 一旦建立这些连接，会出现“full synchronization”阶段。这是整个数据集从主服务器复制到副本的地方。复制完整数据库快照时主数据库发生的任何更新都会并行发送到副本。由于 Dragonfly 的快照算法使用[纤程](https://en.wikipedia.org/wiki/Fiber_(computer_science))，快照和更新是并行发生的。
 
-![image](../image/vnpWatqR6-5YmE6k-2zNJ1plGXQaAc_itbOCxMFZhWs.png)
+![image](../images/vnpWatqR6-5YmE6k-2zNJ1plGXQaAc_itbOCxMFZhWs.png)
 
 ######## 更新与完整快照一起推送到副本，这可以节省大量内存并使进程更加稳定。
 当每个分片完成其full sync的部分时，它将其状态更改为 “***流状态***”，这意味着它已准备好开始向副本发送更新的最终“stable synchronization”阶段。一旦所有分片都处于这种状态，“stable synchronization”阶段就开始了。
@@ -52,16 +52,16 @@ Redis 的内存使用量在复制期间加倍是很常见的。这种情况可�
 
 这些测试结果表明，Dragonfly 的吞吐量比 Redis 快 7.6 倍，而平均延迟低 7.6 倍，尾部（P99）延迟低 3.3 倍。此外，Dragonfly 的复制“full sync”阶段比 Redis 快 5.5 倍，并且与 Redis 不同，Dragonfly 在全量复制阶段没有明显的内存峰值。
 
-![image](../image/AkwUhGHKJmK8e0M1zdpeLJn6Whlc8oEJRZrPtVRnjfA.png)
+![image](../images/AkwUhGHKJmK8e0M1zdpeLJn6Whlc8oEJRZrPtVRnjfA.png)
 
 ####### 复制运行时，Dragonfly 的吞吐量为每秒 1,205,511.27 次操作，而 Redis 的吞吐量为每秒 159,222.92 次操作。
-![image](../image/0Yg9xLWVDVS7VDUiuaFw_nbkUtaC6CDQWG1dvjCNrLQ.png)
+![image](../images/0Yg9xLWVDVS7VDUiuaFw_nbkUtaC6CDQWG1dvjCNrLQ.png)
 
 ######## Dragonfly 复制运行时的平均延迟为每秒 0.44763 毫秒，Redis 为 3.39067 毫秒，这表明可以实现高吞吐量和低延迟。
-![image](../image/rOkdcGN-J5P-Pp2eTD9K1rwYXZ80-uGgBK_X9MPAmJc.png)
+![image](../images/rOkdcGN-J5P-Pp2eTD9K1rwYXZ80-uGgBK_X9MPAmJc.png)
 
 ####### Dragonfly 复制运行时的 P99 延迟为每秒 2.399 毫秒，Redis 为 7.839 毫秒。Dragonfly 中的尾部延迟较低，因为它的复制过程不会导致内存峰值。
-![image](../image/IrYIBz1_fMnrhbWsg9kGabAxvjII_tHUMqDL2uIol_g.png)
+![image](../images/IrYIBz1_fMnrhbWsg9kGabAxvjII_tHUMqDL2uIol_g.png)
 
 ####### Dragonfly 的“完全同步”复制比 Redis 快 5.5 倍，虽然 Redis 在复制过程中会遇到较大的内存峰值，但 Dragonfly 没有明显的内存峰值。
 ## 如何配置和管理 Dragonfly 复制以实现高可用性
@@ -76,5 +76,5 @@ Dragonfly 的 1.0 GA 版本现在包含对复制的全面支持，使其非常�
 
 您只需几分钟即可[开始在 Docker 化容器中使用 Dragonfly ，并且您将能够立即看到它的执行速度。](https://github.com/dragonflydb/dragonfly/blob/main/docs/quick-start/README.md)我们还在[此处](https://www.dragonflydb.io/blog/scaling-performance-redis-vs-dragonfly)发布了与 Redis 的一些关键性能比较。
 
-![image](../image/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
+![image](../imagess/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
 

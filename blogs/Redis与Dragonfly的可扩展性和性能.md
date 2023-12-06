@@ -1,7 +1,7 @@
 # Redis 与 Dragonfly 的可扩展性和性能
 Redis 和 Dragonfly 之间的吞吐量、延迟和内存利用率的全面基准比较。
 
-![image](../image/H9C-n16SYjqyRbQoFvgPHtA7Uvt7EHRvZvt0ycsAm3Q.png)
+![image](../images/H9C-n16SYjqyRbQoFvgPHtA7Uvt7EHRvZvt0ycsAm3Q.png)
 
 内存数据库已成为支撑现代、面向性能的应用程序的最重要的基础设施之一。Redis 因其简单性而成为其中最受欢迎的——它设置快速、易于使用并且可扩展以满足不断增长的业务的需求。
 
@@ -43,7 +43,7 @@ Dragonfly 是 Redis 的直接替代品，可简化生产并提高性能。它[�
 
 从下图可以看出，多线程Dragonfly的吞吐量远远超过了Redis。
 
-![image](../image/E1aAbp7nbLrfEgp1SywCHlsAnJIeLgmcl2XOC1siGto.png)
+![image](../images/E1aAbp7nbLrfEgp1SywCHlsAnJIeLgmcl2XOC1siGto.png)
 
 ####### 对于 GET 和 SET 操作，Dragonfly 的吞吐量远远高于 Redis。
 #### 如何为自己重复这些测试
@@ -73,7 +73,7 @@ Dragonfly 虽然提供高达 Redis 30 倍的吞吐量，但对于最慢的 1% �
 
 下面，我们绘制了 Dragonfly（使用 64 核）和 Redis 的 P99 延迟测试结果。值得注意的是，我们在延迟测试中使用了与吞吐量测试**完全相同的memtier\_benchmark 命令。**
 
-![image](../image/FeuTtps6-BQrXDKN6riy8oWsE9Sx1DRaRAR8rlOpU0U.png)
+![image](../images/FeuTtps6-BQrXDKN6riy8oWsE9Sx1DRaRAR8rlOpU0U.png)
 
 ####### 即使吞吐量是 Redis 的 25-30 倍，Dragonfly 的 P99 延迟也仅比 Redis 高一点点。
 **该图显示，尽管 Dragonfly 的吞吐量大幅增加，但 Dragonfly 的 P99 延迟仅略高于 Redis** - 值得注意的是，如果我们降低 Dragonfly 的吞吐量以匹配 Redis 的吞吐量，则 Dragonfly 的 P99 延迟将比 Redis 低得多。这意味着 Dragonfly 将为您的应用程序性能带来显着改进。
@@ -81,7 +81,7 @@ Dragonfly 虽然提供高达 Redis 30 倍的吞吐量，但对于最慢的 1% �
 ### 测试#3：快照过程中的内存效率
 [众所周知，](https://medium.com/@bb8s/how-redis-cluster-achieves-high-availability-and-data-persistence-8cdc899764e8)在创建数据库快照时，Redis 的执行速度特别慢，因为其大部分内存被重定向到快照进程。由于效率提高，Dragonfly不会遇到这个问题。下面，我们的图表通过比较运行 Redis bgsave 和 Dragonfly save 命令（启动各自数据库的快照过程）时发生的情况，展示了 Dragonfly 在快照时的效率有多高。
 
-![image](../image/KtecnvQ3biNNcipEkbyyqycjDvCY14En3zc1t4L7nIo.png)
+![image](../images/KtecnvQ3biNNcipEkbyyqycjDvCY14En3zc1t4L7nIo.png)
 
 ####### 首先，大量记录添加到Redis和Dragonfly中，导致两者的内存使用量分别增加到56和48 GiB。接下来，为两者启动快照过程。这导致 Redis 的内存大幅飙升，而 Dragonfly 的内存没有显着变化。
 **我们的结果表明：**
