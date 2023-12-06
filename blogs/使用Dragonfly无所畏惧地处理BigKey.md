@@ -1,7 +1,7 @@
 # 使用 Dragonfly 无所畏惧地处理 BigKey
 当使用 Dragonfly（突破性的内存数据存储）时，与 BigKeys 较量几乎不是问题。如果您的服务器应用程序需要 BigKey，您可以无所畏惧地在 Dragonfly 中使用 BigKey。
 
-![image](images/IvvdIUw2jNwqwhU7V2icvue5vCDB09IGYmY2VTNG4oo.png)
+![image](../images/IvvdIUw2jNwqwhU7V2icvue5vCDB09IGYmY2VTNG4oo.png)
 
 ## 介绍
 Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC2`c6gn.16xlarge`实例上拥有令人印象深刻的 400 万次操作/秒，并充分利用 CPU 和内存资源。鉴于计算机内存是一种宝贵的商品，Dragonfly 的使命是巧妙、高效地利用它。然而，就像任何传统的成功技术一样，在围绕它们构建应用程序时需要考虑一些限制。
@@ -15,7 +15,7 @@ Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC
 
 以 List、Set、Sorted-Set 和 Hash 数据类型存储多个项目的能力意味着这些键在包含大量元素时可能会成为 BigKey。值得注意的是，理论上，非常大的值也可以存储在 String 的key上。虽然 Redis 将其限制为 512MB，但为用例选择适当的数据类型可能比将如此巨大的数据存储为具有内存数据存储的字符串更实际。让我们看一下下面存储的各种数据类型的示例：
 
-![image](images/z_JE8lsrLAnmqtyHDDu_HCtUnna2lO4jmfRcdS5uO_Q.png)
+![image](../images/z_JE8lsrLAnmqtyHDDu_HCtUnna2lO4jmfRcdS5uO_Q.png)
 
 了解内存数据存储中的值如何变得过大非常重要。但我们如何定义“太大”呢？[阿里云在下面的博客文章](https://www.alibabacloud.com/blog/a-detailed-explanation-of-the-detection-and-processing-of-bigkey-and-hotkey-in-redis_598143)中概述了 BigKeys 的特性：
 
@@ -56,7 +56,7 @@ Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC
 * Hash value表示阻止用户的具体原因。
 * 总共，我们使用名为 的*单一哈希数据类型*`blocked_user_ids`存储了 1000 万个`field/value`对。
 
-![image](images/51bXurA_DPM0Om9FmsMYhD7CtJdjicQWAjpbktt6IW0.png)
+![image](../images/51bXurA_DPM0Om9FmsMYhD7CtJdjicQWAjpbktt6IW0.png)
 
 虽然这种情况可能无法完美反映所有真实场景的情况，但它提供了一种近似的情况，可以帮助我们理解正在发生的动态。现在，让我们深入研究 BigKey 对我们系统的潜在影响。
 
@@ -76,7 +76,7 @@ Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC
 * 该`HGETALL`命令被战略性地放置在数千个并发读取命令之间。
 * 我们记录了该命令所花费的时间`HGETALL`，以及 P50 到 P99.9 以及数千条读取命令的最大延迟。
 
-![image](images/HfaDEzrqDIBErtue8rLd2Pl8-1wDhG-QfWLG8IAxff4.png)
+![image](../images/HfaDEzrqDIBErtue8rLd2Pl8-1wDhG-QfWLG8IAxff4.png)
 
 通过实施此实验设置，我们能够`HGETALL`在 Dragonfly 和 Redis 的上下文中评估命令的性能和延迟：
 
