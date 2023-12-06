@@ -10,9 +10,9 @@
 
 ## 文章目录
 
-- [监控内存数据库](./监控内存数据库.md)
-- [平衡与不平衡](./平衡与不平衡.md)
-- [使用Dragonfly无所畏惧地处理BigKey](./使用Dragonfly无所畏惧地处理BigKey.md)
-- [宣布Dragonfly Kubernetes Operator全面可用](./宣布Dragonfly%20Kubernetes%20Operator全面可用.md)
-- [Dragonfly内存数据库现在支持复制以实现高可用性](./Dragonfly内存数据库现在支持复制以实现高可用性.md)
-- [Redis与Dragonfly的可扩展性和性能](./Redis与Dragonfly的可扩展性和性能.md)
+- [监控内存数据库](./monitoring-in-memory-datastores.md)
+- [平衡与不平衡](./balanced-vs-unbalanced.md)
+- [使用Dragonfly无所畏惧地处理BigKey](./fearlessly-handling-bigkeys-with-dragonfly.md)
+- [宣布Dragonfly Kubernetes Operator全面可用](./announcing-kubernetes-operator-general-availability.md)
+- [Dragonfly内存数据库现在支持复制以实现高可用性](./replication-for-high-availability.md)
+- [Redis与Dragonfly的可扩展性和性能](./scaling-performance-redis-vs-dragonfly.md)
