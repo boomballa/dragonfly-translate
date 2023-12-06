@@ -6,7 +6,7 @@
 </p>
 
 # 说明
-以下Blog文章全部出自于Dragonfly的[官网](https://www.dragonflydb.io/)，如需查看原文请移步官网[Blog](https://www.dragonflydb.io/blog)频道。
+以下Blog文章全部出自于Dragonfly的[官网](https://www.dragonflydb.io/)，如需查看原文请移[官网Blog](https://www.dragonflydb.io/blog)频道。
 
 ## 文章目录
 
