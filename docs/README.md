@@ -14,7 +14,7 @@
 
 首先，选择一个部署方式。
 
-如果你是刚刚接触 Dragonfly， 我们推荐 [ Docker快速部署DragonflyDB指引](/docs/quick-start/)
+如果你是刚刚接触 Dragonfly， 我们推荐 [快速部署DragonflyDB指引](/docs/getting-start/)
 
 其他选项：
 
@@ -24,8 +24,8 @@
 
 
 # 学习关于 DragonflyDB 的一些知识
-## [FAQ](/docs/faq.Zh_CN.md)
+## [FAQ](/docs/documentation/Frequently-Asked-Questions.md)
 
-## [Differences Between DragonflyDB and Redis](/docs/differences.Zh_CN.md)
+## [Differences Between DragonflyDB and Redis](/docs/architecture-and-features/differences.Zh_CN.md)
 
 ## [API Commands Reference](https://dragonflydb.io/docs/category/command-reference)
