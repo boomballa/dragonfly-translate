@@ -1,5 +1,4 @@
 # 备份保存
-# 备份保存
 Dragonfly 实例可以自动和手动生成磁盘备份。许多标志会影响备份机制的行为。可以通过命令行或通过[标志文件](https://www.dragonflydb.io/docs/getting-started/binary#flag-files)给出标志。
 
 ## 自动[备份](https://www.dragonflydb.io/docs/managing-dragonfly/backups#automatic-backups "直接链接到自动备份")
