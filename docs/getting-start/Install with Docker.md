@@ -1,5 +1,4 @@
-# Install with Docker
-# 使用 Docker 安装
+# 使用 Docker 安装 DragonflyDB
 从`docker run`开始是启动和运行 Dragonfly 的最简单方法。
 
 如果您的计算机上没有 docker，请先[安装 Docker](https://docs.docker.com/get-docker/) ，然后再继续。
