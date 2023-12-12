@@ -1,4 +1,4 @@
-# HTTP
+# HTTP 协议
 Dragonfly 支持 HTTP 的某些操作。默认情况下，`HTTP`可以在与主端口相同的端口上进行访问`TCP`。但是，可以通过命令关闭此功能 `--primary_port_http_enabled=false`。此外，如果`--admin_port`设置了标志，它也支持`HTTP`管理端口。
 
 ## [认证](https://www.dragonflydb.io/docs/managing-dragonfly/using-http#authentication "Direct link to Authentication")

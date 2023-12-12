@@ -1,4 +1,3 @@
-# 高可用
 # 高可用性
 高可用性 (HA) 是一种系统设计方法，可确保高水平的操作性能和正常运行时间。它通常是通过运行系统的多个实例并确保至少一个实例始终可用来实现的。借助 Dragonfly，您可以通过[复制](https://www.dragonflydb.io/docs/managing-dragonfly/replication)实现高可用性，并拥有可在主服务器发生故障时用作故障转移机制的只读副本。
 

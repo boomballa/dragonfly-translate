@@ -1,5 +1,4 @@
 # 集群模式
-# 集群模式
 Dragonfly 有 2 种集群模式：
 
 1. 模拟集群（Emulated模式）：单个 Dragonfly 节点，通常在从 Redis 集群迁移时很有帮助
