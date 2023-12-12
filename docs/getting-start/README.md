@@ -58,4 +58,4 @@ OK
 ## 更多构建选项
 - [Docker Compose部署](/contrib/docker/)
 - [使用 Helm Chart进行 Kubernetes 部署](/contrib/charts/dragonfly/)
-- [通过源代码构建](/docs/build-from-source.md)
+- [通过源代码构建](./build-from-source.Zh_CN.md)
