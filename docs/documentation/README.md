@@ -5,7 +5,7 @@ Dragonfly 是一种现代内存数据存储，与 Redis 和 Memcached API 完全
 
 Dragonfly 与 Redis 生态系统完全兼容，无需更改代码即可实现。
 
-![image](images/znZu76hbrh13j6b3upp9QW4MTqij1rZ9EMYhUH_CPbw.png)
+![image](/images/znZu76hbrh13j6b3upp9QW4MTqij1rZ9EMYhUH_CPbw.png)
 
 请访问[入门部分](/docs/getting-started)探索部署选项并亲自尝试 Dragonfly。
 
