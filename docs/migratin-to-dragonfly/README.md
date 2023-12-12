@@ -1,25 +1,25 @@
 # 迁移概述
-## [简介](https://www.dragonflydb.io/docs/migrating-to-dragonfly#introduction%20%22Direct%20link%20to%20Introduction%22)
+## [简介](#简介)
 将现有应用程序从 Redis 迁移到 Dragonfly 是利用我们先进数据库解决方案的强大功能的关键一步。虽然迁移乍一看似乎具有挑战性，但我们在本节中详细介绍的一套全面的迁移技术旨在简化各种场景的流程。
 
-## 明确迁移的[格局](https://www.dragonflydb.io/docs/migrating-to-dragonfly#navigating-the-migration-landscape%20%22%E7%9B%B4%E6%8E%A5%E9%93%BE%E6%8E%A5%E5%88%B0%E5%AF%BC%E8%88%AA%E8%BF%81%E7%A7%BB%E6%99%AF%E8%A7%82%22)
+## 明确迁移的[格局](#明确迁移的格局)
 踏上从Redis到Dragonfly的迁移之旅需要仔细的考虑和规划。我们的目标是使这一过渡尽可能顺利，确保您的应用程序在此过程中受到的干扰最小。
 
-## 揭秘迁移[技术](https://www.dragonflydb.io/docs/migrating-to-dragonfly#unveiling-the-migration-techniques "直接链接至揭秘迁移技术")
+## 揭秘迁移[技术](#揭秘迁移技术 "直接链接至揭秘迁移技术")
 在本节中，我们介绍了旨在满足不同要求的各种迁移技术。无论您的首要任务是最大限度地减少停机时间还是简化流程，我们都有量身定制的方法来满足您的特定需求。
 
 * **平衡停机时间和简单性：** 我们的一些迁移技术需要短暂的停机时间窗口，尽管伴随着简单的设置和执行步骤。这些方法使您能够轻松地将基于 Redis 的应用程序快速迁移到 Dragonfly。
 * **驾驭复杂性以实现零停机：** 在无法停机的情况下，我们提供需要更深入了解 Redis 和 Dragonfly 的先进技术。这些方法虽然更加复杂，但使您能够在不中断应用程序可用性的情况下进行迁移。
 
-## 选择您的迁移[路径](https://www.dragonflydb.io/docs/migrating-to-dragonfly#choosing-your-migration-path "直接链接到选择您的迁移路径")
+## 选择您的迁移[路径](#拥抱dragonfly的优势 "直接链接到选择您的迁移路径")
 选择正确的迁移技术对于实现成功过渡至关重要。在决定哪种方法最符合您的目标时，请评估您的应用程序的要求、当前基础设施和对停机的容忍度。
 
 从 Redis 实例迁移时：
 
-* [快照和恢复](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/snapshot-and-restore)提供了最简单的入口点。
-* 深入[研究复制](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/replication)技术以增强数据一致性并减少停机时间。
-* 要获得更复杂的配置，提供最少甚至没有停机时间，请探索[哨兵升级](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion)技术。
+* [快照和恢复](./from-redis-instance/snapshot-and-restore)提供了最简单的入口点。
+* 深入[研究复制](./from-redis-instance/replication)技术以增强数据一致性并减少停机时间。
+* 要获得更复杂的配置，提供最少甚至没有停机时间，请探索[哨兵升级](./from-redis-instance/sentinel-promotion)技术。
 
-## 拥抱Dragonfly的[优势](https://www.dragonflydb.io/docs/migrating-to-dragonfly#embracing-the-dragonfly-advantage%20%22%E7%9B%B4%E6%8E%A5%E9%93%BE%E6%8E%A5%E5%88%B0%E6%8B%A5%E6%8A%B1%E8%9C%BB%E8%9C%93%E4%BC%98%E5%8A%BF%22)
+## 拥抱Dragonfly的[优势](#拥抱dragonfly的优势)
 通过采用我们的迁移技术，您将释放 Dragonfly 的全部潜力，同时保护应用程序的完整性和可用性。我们的支持资源随时可以在迁移过程的每一步为您提供帮助。准备好见证 Dragonfly 无缝集成到您的应用程序生态系统中。让我们一起踏上迁移之旅，让您的 Redis 到 Dragonfly 的过渡取得巨大成功。
 
