@@ -50,6 +50,8 @@
   * [哨兵升级](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md)
 * [命令参考](/docs/command-reference/)
 * [开发](/docs/development/)
+  * [软件开发工具包](/docs/development/SDKs.md)
+  * [命令行界面](/docs/development/CLI.md)
 * [集成](/docs/integrations/)
 * [博客精选](/blogs/)
   * [监控内存数据库](/blogs//monitoring-in-memory-datastores.md)
