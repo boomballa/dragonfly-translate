@@ -32,7 +32,7 @@ mv {file_name} dragonfly
 ## 带[标志](#带标志 "直接链接到带有标志的 Run Dragonfly")
 通过运行该选项可以看到 Dragonfly 支持的标志列表`--help`，并且可以使用该选项查看完整的选项列表`--helpfull`。
 
-[可以在此处](https://github.com/boomballa/dragonfly-translate/blob/main/README_org.md#%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95)找到最有用的标志的列表。
+[可以在此处](https://github.com/boomballa/dragonfly-translate/blob/main/README_Official.md#%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95)找到最有用的标志的列表。
 
 例如，要运行蜻蜓：
 
