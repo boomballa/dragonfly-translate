@@ -1,38 +1,14 @@
-<p align="center">
-  <a href="https://dragonflydb.io">
-    <img src="https://raw.githubusercontent.com/dragonflydb/dragonfly/main/.github/images/logo-full.svg"
-      width="284" border="0" alt="Dragonfly">
-  </a>
-</p>
-
-
-# 快速入门
-
-从 “docker run” 开始是启动和运行 DragonflyDB 的最简单方法。
-
-如果你的电脑上面没有 docker， 先 [安装 Docker](https://docs.docker.com/get-docker/) ，然后再继续。
+# 快速安装入门
 
 ## 步骤 1
+使用以下选项之一可以快速启动并运行 Dragonfly：
 
-### 在 linux 上
-
-```bash
-docker run --network=host --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly
-```
-
-### 在 macOS 上
-
-_`network=host` 在 macOS上面运行不是很友好， 查看 [这个问题](https://github.com/docker/for-mac/issues/1031)_
-
-```bash
-docker run -p 6379:6379 --ulimit memlock=-1 docker.dragonflydb.io/dragonflydb/dragonfly
-```
-
-Dragonfly 数据库会立即响应 `http` 和 `redis` 这两种请求。
-
-你可以使用 `redis-cli` 去连接 `localhost:6379` 或者打开浏览器访问 `http://localhost:6379`
-
-**注意**: 在某些配置上， 运行 `docker run --privileged ...` 命令使用此参数可以修复一些初始化错误。
+* [使用 Docker 安装 Dragonfly](/docs/getting-start/install-with-docker.md)
+* [使用 Docker Compose 安装 Dragonfly](/docs/getting-start/Install-with-Docker-Compose.md)
+* [安装 Dragonfly Kubernetes Operator](/docs/getting-start/Install-Dragonfly-Kubernetes-Operator.md)
+* [使用 Helm Chart 在 Kubernetes 上安装](/docs/getting-start/Install-on-Kubernetes-with-Helm-Chart.md)
+* [从二进制文件安装](/docs/getting-start/Install-from-Binary.md)
+* [从源代码构建 DragonflyDB](/docs/getting-start/build-from-source.Zh_CN.md)
 
 ## 步骤 2
 
@@ -53,9 +29,14 @@ OK
 
 继续加油，利用 DragonflyDB 的强大功能构建您的应用程序！
 
-## 已知的问题
 
-## 更多构建选项
-- [Docker Compose部署](/contrib/docker/)
-- [使用 Helm Chart进行 Kubernetes 部署](/contrib/charts/dragonfly/)
-- [通过源代码构建](./build-from-source.Zh_CN.md)
+# 硬件兼容性
+Dragonfly 经过专门优化，可在云环境中运行。它得到官方支持和认证，可在 x86\_64 和 arm64 架构上使用。
+
+对于 x86\_64 架构，Dragonfly 需要最低限度的\_sandybridge\_架构才能正常运行。为了确保兼容性和性能，Dragonfly 在各种云平台上进行持续测试。其中包括 AWS 云中的 Graviton2 实例，以及 AWS 和 GCP 云中基于 x86\_64 的实例。
+
+此外，Dragonfly 的回归测试（可以[在此处找到](https://github.com/dragonflydb/dragonfly/actions/workflows/regression-tests.yml)）通过 GitHub Actions 在 Azure 云上持续运行。这有助于保证软件的可靠性和稳定性。
+
+# 操作系统兼容性
+Dragonfly 与 Linux 版本 4.14 或更高版本兼容。但是，为了获得最佳性能，建议在内核版本 5.10 或更高版本上运行 Dragonfly。Dragonfly 构建环境基于 Ubuntu 20.04。
+

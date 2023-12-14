@@ -47,7 +47,6 @@ git clone --recursive https://github.com/dragonflydb/dragonfly && cd dragonfly
 
 # 构建
 cd build-opt && ninja dragonfly
-
 ```
 
 ## 第 4 步 - 启动实例
@@ -55,7 +54,6 @@ cd build-opt && ninja dragonfly
 ```bash
 # 运行命令
 ./dragonfly --alsologtostderr
-
 ```
 
 Dragonfly DB 可以快速响应 `http` 和 `redis` 请求！

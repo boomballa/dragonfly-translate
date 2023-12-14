@@ -1,9 +1,9 @@
 # 高可用性
-高可用性 (HA) 是一种系统设计方法，可确保高水平的操作性能和正常运行时间。它通常是通过运行系统的多个实例并确保至少一个实例始终可用来实现的。借助 Dragonfly，您可以通过[复制](https://www.dragonflydb.io/docs/managing-dragonfly/replication)实现高可用性，并拥有可在主服务器发生故障时用作故障转移机制的只读副本。
+高可用性 (HA) 是一种系统设计方法，可确保高水平的操作性能和正常运行时间。它通常是通过运行系统的多个实例并确保至少一个实例始终可用来实现的。借助 Dragonfly，您可以通过[复制](/docs/managing-dragonfly/Replication.md)实现高可用性，并拥有可在主服务器发生故障时用作故障转移机制的只读副本。
 
 使用 Dragonfly 实现高可用性取决于底层部署方法。在本节中，我们将介绍如何在以下场景中使用 Dragonfly 实现高可用性：
 
-## Dragonfly [Operator](https://www.dragonflydb.io/docs/managing-dragonfly/high-availability#high-availability-with-dragonfly-operator "通过 Dragonfly Operator 直接链接到高可用性")
+## Dragonfly [Operator](/docs/managing-dragonfly/High-Availability.md#dragonfly-operator "通过 Dragonfly Operator 直接链接到高可用性")
 Dragonfly Operator 是一个管理 Dragonfly 实例的 Kubernetes Operator。它可以在[GitHub](https://github.com/dragonflydb/dragonfly-operator)上找到 ，并且可以安装在任何 Kubernetes 集群上。
 
 Operator 的主要功能之一是开箱即用的高可用性。它允许您以最小的努力在高度可用的配置中运行 Dragonfly。默认情况下，当您将该`replicas`字段设置为大于 1 的值时，Operator 会自动将 Dragonfly 配置为以 HA 模式运行，其中一个实例为主实例，其余实例为副本实例。当这些 Pod 出现故障时，Operator 将自动重新配置复制，以维持所需数量的副本，并且一个主服务器始终可用。
@@ -12,9 +12,9 @@ Operator 的主要功能之一是开箱即用的高可用性。它允许您以�
 
 让我们看看这在实践中是如何运作的。
 
-按照[安装说明](https://www.dragonflydb.io/docs/getting-started/kubernetes-operator#installation)在 Kubernetes 集群上安装 Operator。
+按照[安装说明](/docs/getting-start/Install-Dragonfly-Kubernetes-Operator.md#安装)在 Kubernetes 集群上安装 Operator。
 
-### 创建 Dragonfly[实例](https://www.dragonflydb.io/docs/managing-dragonfly/high-availability#creating-a-dragonfly-instance "直接链接到创建 Dragonfly 实例")
+### 创建 Dragonfly[实例](/docs/managing-dragonfly/High-Availability.md#创建-dragonfly实例 "直接链接到创建 Dragonfly 实例")
 要创建示例 Dragonfly 实例，您可以运行以下命令：
 
 ```bash
