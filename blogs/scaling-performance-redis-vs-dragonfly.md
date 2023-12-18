@@ -114,4 +114,4 @@ Dragonfly 虽然提供高达 Redis 30 倍的吞吐量，但对于最慢的 1% �
 
 Redis 是一项令人惊叹的技术，已被数百万开发人员用来快速启动和运行缓存。我们构建 Dragonfly 是为了让开发人员拥有同样易于使用、但性能更好且更可靠的东西。
 
-从 Redis 轻松切换到 Dragonfly 是解决 Redis 可扩展性和饱和问题的一个很好的一步解决方案。[通过运行Dragonfly 的 Docker 版本](https://www.dragonflydb.io/docs/getting-started/docker)并使用与调用 Redis 完全相同的命令来调用它，您可以在几分钟内轻松开始。
+从 Redis 轻松切换到 Dragonfly 是解决 Redis 可扩展性和饱和问题的一个很好的一步解决方案。[通过运行Dragonfly 的 Docker 版本](/docs/getting-start/install-with-docker.md)并使用与调用 Redis 完全相同的命令来调用它，您可以在几分钟内轻松开始。

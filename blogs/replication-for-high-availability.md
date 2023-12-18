@@ -18,7 +18,7 @@ Dragonfly 提供与 Redis 完全兼容的 API，使迁移变得容易。这意�
 数据库复制是任何高可用内存数据库系统的基础之一。如果没有适当的复制，如果数据库崩溃，您将必须手动从备份恢复。这非常耗时，更糟糕的是，您将丢失自上次备份以来写入数据库的所有数据。通过可靠的数据库复制实施，包括检测不稳定或故障的监控系统，您的应用程序将能够通过自动回退到副本节点并继续正常运行来处理主数据库节点故障。
 
 ## Dragonfly 复制的工作原理
-对于开发人员来说，Dragonfly 中的复制与 Redis 复制的工作方式相同，实现完全相同的 API 以实现兼容性也比较易于学习。然而，底层代码都是Dragonfly。主要区别之一是 Dragonfly 的[快照算法](https://www.dragonflydb.io/blog/balanced-vs-unbalanced)，它使复制变得可靠，而不会显着影响性能。
+对于开发人员来说，Dragonfly 中的复制与 Redis 复制的工作方式相同，实现完全相同的 API 以实现兼容性也比较易于学习。然而，底层代码都是Dragonfly。主要区别之一是 Dragonfly 的[快照算法](/blogs/balanced-vs-unbalanced.md)，它使复制变得可靠，而不会显着影响性能。
 
 Dragonfly 使用一种[无​​共享架构](https://en.wikipedia.org/wiki/Shared-nothing_architecture)，允许通过不同的连接并行复制数据，每个线程一个连接。这种无共享架构之所以成为可能，是因为 Dragonfly 被设计为允许多线程，从而使其速度超快。存储的数据分布在 Dragonfly 内的不同[分片中](https://en.wikipedia.org/wiki/Shard_(database_architecture))，每个分片持有一组不同的Key。作为 Dragonfly 多线程设计的一部分，每个线程负责一个特定的分片并在该分片上执行操作，例如复制分片的数据。
 
@@ -65,7 +65,7 @@ Redis 的内存使用量在复制期间加倍是很常见的。这种情况可�
 
 ####### Dragonfly 的“完全同步”复制比 Redis 快 5.5 倍，虽然 Redis 在复制过程中会遇到较大的内存峰值，但 Dragonfly 没有明显的内存峰值。
 ## 如何配置和管理 Dragonfly 复制以实现高可用性
-我们的[复制文档](https://www.dragonflydb.io/docs/managing-dragonfly/replication)提供了如何管理 Dragonfly 复制以及使用复制从 Redis 迁移到 Dragonfly 的完整详细信息。Dragonfly 复制管理 API 与 Redis API 完全兼容，由两个面向用户的命令组成：ROLE 和 REPLICAOF (SLAVEOF)。
+我们的[复制文档](/docs/managing-dragonfly/Replication.md)提供了如何管理 Dragonfly 复制以及使用复制从 Redis 迁移到 Dragonfly 的完整详细信息。Dragonfly 复制管理 API 与 Redis API 完全兼容，由两个面向用户的命令组成：ROLE 和 REPLICAOF (SLAVEOF)。
 
 [您可以使用Redis Sentinel](https://redis.io/docs/management/sentinel/)等高可用性监控系统来自动管理故障转移，而不是直接使用 API。Dragonfly 与 Redis Sentinel 完全兼容，它可以检测主实例何时发生故障，并自动将副本提升为下一个主节点。
 
@@ -74,7 +74,7 @@ Dragonfly 的 1.0 GA 版本现在包含对复制的全面支持，使其非常�
 
 由于 Dragonfly 具有与 Redis 相同的 API，因此您可以在生产环境中将其用作直接替代品。
 
-您只需几分钟即可[开始在 Docker 化容器中使用 Dragonfly ，并且您将能够立即看到它的执行速度。](https://github.com/dragonflydb/dragonfly/blob/main/docs/quick-start/README.md)我们还在[此处](https://www.dragonflydb.io/blog/scaling-performance-redis-vs-dragonfly)发布了与 Redis 的一些关键性能比较。
+您只需几分钟即可[开始在 Docker 化容器中使用 Dragonfly ，并且您将能够立即看到它的执行速度。](/docs/getting-start/README.md)我们还在[此处](/blogs/scaling-performance-redis-vs-dragonfly.md)发布了与 Redis 的一些关键性能比较。
 
 ![image](../imagess/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
 
