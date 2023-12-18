@@ -93,6 +93,7 @@ hook | 钩子
 hop | 消息跳跃
 dispatch | 发起
 dispatcher | 分发器
+replica | 从库，副本
 non-blocking | 非阻塞
 coordinator | 协调器
 fiber | 纤程
@@ -103,9 +104,11 @@ immutable | 不可变
 英文  | 说明
 ----- | ------
 shard | 分片
-replica | 从库，副本
 queue | 队列
 transaction | 事务
+socket | 网络嵌套字
+SnapshotShard | 快照分片
+
 
 
 ### 小贴士

@@ -24,8 +24,8 @@
 
 复制所需。创建多个文件，每个 SnapshotShard 一个文件。不需要中央接收器。 每个 SnapshotShard 仍然使用 RdbSerializer 和 StringFile 来保证 bucket 级别的粒度。 如果我们想使用 direct I/O，我们仍然需 AlignedBuffer 。DF对于具有 N 个分片的 DF 进程，它将创建 N 个文件。可能需要额外的元数据文件来提供文件级别一致性，但现在我们可以假设只创建了 N 个文件，因为我们的用例将是基于网络的复制。
 
-该如何使用呢？ Replica (slave) 将与 master 进行握手，并了解它拥有多少分片。然后开启 `N` 个 socket，每个 socket 都会提取分片数据。首先， 它们将提取快照数据，
-并通过在 `K` 个 replica 分片之间分配 entry 来重放它。 在所有数据都被重放后，它们将继续重放更改日志（稳定状态复制 - stable state replication），这块不在本文档的上下文讨论范围。
+该如何使用呢？ Replica (slave) 将与 Master 进行握手，并了解它拥有多少分片。然后开启 `N` 个 socket，每个 socket 都会提取分片数据。首先， 它们将提取快照数据，
+并通过在 `K` 个 Replica 分片之间分配 entry 来重放它。 在所有数据都被重放后，它们将继续重放更改日志（稳定状态复制 - stable state replication），这块不在本文档的上下文讨论范围。
 
 ## Relaxed状态时间点 （待完善）
 当 DF 将其快照文件保存在磁盘上时，它通过对所有进程分片应用虚拟剪切来维护快照隔离。快照可能需要一些时间，在此期间，DF可能会处理很多写入请求。这些突变不会成为快照的一部分， 因为剪切会捕获截至 **其开始时间点** 的数据。这非常适合备份。我将这种变化称为“保守快照（conservative snapshotting）”。
@@ -62,7 +62,7 @@ DashTable 迭代算法保证收敛和覆盖（“至多一次”），但不保�
  }
 ```
 
-为了允许在快照阶段并发写入，我们设置了一个在表中的每个 entry 突变时触发的挂钩装置（hook）：
+为了允许在快照阶段并发写入，我们设置了一个在表中的每个 entry 突变时触发的勾子（hook）：
 
 OnWriteHook:
 ```cpp
@@ -75,7 +75,7 @@ entry = new_entry;
 entry.version = shard.epoch++;  // guaranteed to become > cut.version
 ```
 
-请注意，此挂钩装置（hook）通过在更改之前将条目的先前值推入接收器来维护保守变化的时间点语义。
+请注意，此钩子（hook）通过在更改之前将条目的先前值推入接收器来维护保守变化的时间点语义。
 
 然而，对于宽松状态时间点，我们不必存储旧值。因此，我们可以执行以下操作：
 

@@ -3,7 +3,7 @@
 
 Dashtable 是 Dragonfly 中非常重要的数据结构。本文档解释了它是如何适配在引擎内的。
 
-每个Selectable数据库都包含一个主 Dashtable，它包含所有的数据条目。 另一个 Dashtable 实例包含一个可选的到期时间信息， 用于过期那些具有 TTL 的 key。 Dashtable 相当于Redis的字典，但是它具有一些很棒的特性，使 Dragonfly 内存效率在任何情况下都高效。
+每个Selectable数据库都包含一个主 Dashtable，它包含所有的数据条目。 另一个 Dashtable 实例包含一个可选的到期时间信息， 用于过期那些具有 TTL 的 key。 Dashtable 相当于 Redis 的字典，但是它具有一些很棒的特性，使 Dragonfly 内存效率在任何情况下都高效。
 
 ![Database Overview](./db.svg)
 
