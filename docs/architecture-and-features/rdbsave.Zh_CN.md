@@ -14,7 +14,7 @@
 1. 该类 `RdbSave` 实例化单个阻塞通道（红色）。它的目的是收集所有分片中所有 blob。
 2. 此外，它还在每个 DF 分片中创建线程本地快照实例。TODO: 将代码库中的它们重命名为另一个名称（SnapshotShard？），因为 `snapshot` 单词在这里可能有点歧义。
 3. 每个 SnapshotShard 都会实例化自己的 RdbSerializer，用于根据 Redis 格式规范将每个 K/V entry 序列化为二进制表示形式。SnapshotShards 将同一 Dash 存储桶中的多个 Blob 组合成一个 Blob。它们总是以 bucket 粒度发送 blob 数据，即它们从不将 blob 发送到仅部分覆盖存储桶的通道中。这是为了保证快照隔离所必需的。
-4. RdbSerializer 使用 `io::Sink` 来发出二进制数据。SnapshotShard 实例传递给 `StringFile` 一个a，`StringFile` 只是一个包装 `std::string` 对象的内存接收器。 一旦 `StringFile` 实例变大， 它就会被刷新到通道中（只要它遵循上述规则）。
+4. RdbSerializer 使用 `io::Sink` 来发出二进制数据。SnapshotShard 实例向其中传递给一个 `StringFile` ，`StringFile` 只是一个包装 `std::string` 对象的内存接收器。 一旦 `StringFile` 实例变大， 它就会被刷新到通道中（只要它遵循上述规则）。
 5. RdbSave 还创建一个 Fiber (SaveBody)，从通道拉出所有的 blob。 blob 可能以未指定的顺序出现， 但它可以保证每个 blob 都可以自给自足。
 6. DF 使用 direct I/O， 来提高 i/o 的吞吐量，而这又需要正确对齐的内存缓冲区才能工作。不幸的事， 来自 rdb 通道的 blob 具有不同的大小，并且它们不按操作系统页面粒度对齐。因此，DF 将 rdb 通道中的所有数据通过 AlignedBuffer 转换传递。此类的目的是将传入数据复制到正确对齐的缓冲区中。一旦积累了足够的数据，它就会将其刷新到输出文件中。
 
