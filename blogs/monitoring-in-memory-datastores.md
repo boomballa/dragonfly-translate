@@ -10,7 +10,7 @@
 
 在这篇博文中，我们将探讨如何 使用 [Prometheus监控](https://prometheus.io/)[Dragonfly](https://www.dragonflydb.io/)并添加 [Grafana](https://grafana.com/)进行可视化。
 
-Dragonfly 是一种现代内存数据存储，它在多线程、无共享架构之上实现新颖的算法和数据结构。由于其[API 兼容性](https://dragonflydb.io/docs/category/command-reference)，Dragonfly 可以作为Redis 的*直接替代品*。截至撰写本文时，[Dragonfly 已实现了 200 多个 Redis 命令](https://dragonflydb.io/docs/about/faq#when-will-you-support-x-command) ，这代表了绝大多数用例的良好覆盖。由于 Dragonfly 的硬件效率，您可以在小型 8GB 实例上运行单节点实例，也可以垂直扩展到具有 64 核的大型 768GB 机器。这极大地降低了基础设施成本以及架构复杂性。
+Dragonfly 是一种现代内存数据存储，它在多线程、无共享架构之上实现新颖的算法和数据结构。由于其[API 兼容性](/docs/command-reference/README.md)，Dragonfly 可以作为Redis 的*直接替代品*。截至撰写本文时，[Dragonfly 已实现了 200 多个 Redis 命令](/docs/documentation/Frequently-Asked-Questions.md#什么时候支持-x-命令) ，这代表了绝大多数用例的良好覆盖。由于 Dragonfly 的硬件效率，您可以在小型 8GB 实例上运行单节点实例，也可以垂直扩展到具有 64 核的大型 768GB 机器。这极大地降低了基础设施成本以及架构复杂性。
 
 
 
@@ -184,7 +184,7 @@ docker compose -p monitor-dragonfly down -v
 ## **结论**
 在这篇博文中，我们探讨了如何使用 Prometheus 监控 Dragonfly 指标，并与 Grafana 集成以在仪表板上可视化指标。
 
-如果您想了解更多信息，请查看我们有关[如何启动 DragonflyDB 实例的](https://dragonflydb.io/docs/getting-started/)文档，带上 [您选择的客户端](https://dragonflydb.io/docs/development/sdks) 并开始使用熟悉的[Redis 命令](https://dragonflydb.io/docs/category/command-reference)进行构建！
+如果您想了解更多信息，请查看我们有关[如何启动 DragonflyDB 实例的](/docs/getting-start/README.md)文档，带上 [您选择的客户端](/docs/development/SDKs.md) 并开始使用熟悉的[Redis 命令](/docs/command-reference/README.md)进行构建！
 
 ![image](../images/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
 
