@@ -99,6 +99,7 @@ coordinator | 协调器
 fiber | 纤程
 mutable | 可变
 immutable | 不可变
+flag | 参数
 
 ### 说明并翻译的名词
 英文  | 说明
