@@ -6,11 +6,11 @@
 
 除了全面上市之外，我们还很高兴地宣布推出新功能，例如高级快照、企业级安全性以及性能和可靠性增强。
 
-要立即开始，请访问我们新更新的[Dragonfly Operator 文档](https://www.dragonflydb.io/docs/managing-dragonfly/operator/installation)。
+要立即开始，请访问我们新更新的[Dragonfly Operator 文档](/docs/getting-start/README.md)。
 
 ---
 ## 高级快照
-快照一直是 Dragonfly 可靠的数据备份机制。在这个最新版本中，我们将其提升到了一个新的水平，确保快照与 Kubernetes 和云存储解决方案更加无缝地集成。随着 Dragonfly 自定义资源定义 (CRD) 中高级`snapshot`字段的引入，配置和使用快照变得前所未有的简单。
+快照一直是 Dragonfly 可靠的数据备份机制。在这个最新版本中，我们将其提升到了一个新的水平，确保快照与 Kubernetes 和云存储解决方案更加无缝地集成。随着 Dragonfly 自定义资源定义 (CRD) 中高级 `snapshot` 字段的引入，配置和使用快照变得前所未有的简单。
 
 通过设置此配置，您可以让 Dragonfly 在 Pod 终止期间自动处理数据备份，并在 Pod 再次恢复时自动处理数据备份，从而最大限度地减少停机时间并保持操作的完整性。
 
@@ -36,7 +36,7 @@ spec:
           storage: 2Gi
 
 ```
-[更多详细信息可以在Dragonfly Operator 快照到 PVC 文档中](https://www.dragonflydb.io/docs/managing-dragonfly/operator/snapshot-pvc)找到。
+[更多详细信息可以在Dragonfly Operator 快照到 PVC 文档中](/docs/managing-dragonfly/Dragonfly-Operator/Snapshots-through-PVC.md)找到。
 
 ### 2、云存储
 Dragonfly 最近添加了对 S3 兼容云存储快照的支持。这允许直接从 S3 存储桶无缝写入和读取快照文件，并通过`--dr s3://<>`服务器参数实现。要利用此功能，必须使用必要的凭据正确配置环境。
@@ -55,7 +55,7 @@ spec:
     dir: "s3://dragonfly-snapshots" # S3 bucket name
 
 ```
-[更多详细信息可以在Dragonfly Operator 快照到 S3 文档中](https://www.dragonflydb.io/docs/managing-dragonfly/operator/snapshot-s3)找到。
+[更多详细信息可以在Dragonfly Operator 快照到 S3 文档中](/docs/managing-dragonfly/Dragonfly-Operator/Configure-Snapshots-to-S3-with-the-Dragonfly-Operator.md)找到。
 
 ---
 ## 企业级安全
@@ -77,19 +77,19 @@ spec:
         key: password
 
 ```
-`clientCaCertSecret`通过 Dragonfly 验证客户端证书，增强 TLS 的安全性。设置此功能还需要执行几个步骤。[上述两种方法的详细说明可以在Dragonfly Operator 身份验证文档](https://www.dragonflydb.io/docs/managing-dragonfly/operator/authentication)中找到。
+`clientCaCertSecret`通过 Dragonfly 验证客户端证书，增强 TLS 的安全性。设置此功能还需要执行几个步骤。[上述两种方法的详细说明可以在Dragonfly Operator 身份验证文档](/docs/managing-dragonfly/Dragonfly-Operator/Dragonfly-Instance-Authentication.md)中找到。
 
 ### 2\. 服务器 TLS
 Dragonfly Kubernetes Operator 现在支持 TLS 证书的集成。通过在 Dragonfly 实例配置中指定 Kubernetes Secret，您可以确保证书得到传播和配置。这会导致客户端和 Dragonfly 服务器之间的通信加密，从而保护网络通信免受中间人攻击。
 
-[Dragonfly Operator 服务器 TLS 文档](https://www.dragonflydb.io/docs/managing-dragonfly/operator/server-tls)中提供了将 TLS 与[cert-manager](https://cert-manager.io/docs/)结合使用。
+[Dragonfly Operator 服务器 TLS 文档](/docs/managing-dragonfly/Dragonfly-Operator/Dragonfly-With-Server-TLS.md)中提供了将 TLS 与[cert-manager](https://cert-manager.io/docs/)结合使用。
 
 ---
 ## 监控和可靠性
 ### 1\. 使用 Prometheus 和 Grafana 进行监控
-**Prometheus**是 Kubernetes 中监控和存储指标的默认方式。我们有关于如何安装 Prometheus Operator 并使用它来收集和存储指标的新[文档。](https://www.dragonflydb.io/docs/managing-dragonfly/operator/prometheus-guide)
+**Prometheus**是 Kubernetes 中监控和存储指标的默认方式。我们有关于如何安装 Prometheus Operator 并使用它来收集和存储指标的新[文档。](/docs/managing-dragonfly/Dragonfly-Operator/Integrate-Prometheus-with-the-Dragonfly-Operator.md)
 
-然后可以使用**Grafana开始可视化这些重要指标。**我们提供包含重要指标的[自定义仪表板](https://www.dragonflydb.io/docs/managing-dragonfly/operator/grafana-guide)，您可以直接加载并开始监控您的实例。
+然后可以使用**Grafana开始可视化这些重要指标。**我们提供包含重要指标的[自定义仪表板](/docs/managing-dragonfly/Dragonfly-Operator/Integrate-Grafana-with-Dragonfly-operator.md)，您可以直接加载并开始监控您的实例。
 
 ### 2\. 可靠性——定制推出策略
 与依赖 Kubernetes 进行有状态集升级的传统方式不同，Dragonfly Operator 采用主动且受控的方法。当对 Dragonfly 自定义资源进行任何修改时，Operator 首先启动副本的升级过程。它会升级每个副本，并在继续之前暂停以确认至少一个副本是否已准备就绪。验证完成后，主服务器将升级，操作员选择最新的副本之一来承担主服务器角色。整个推出过程是自动完成的，无需额外的操作输入。
@@ -103,7 +103,7 @@ Dragonfly Kubernetes Operator 现在支持 TLS 证书的集成。通过在 Drago
 
 ---
 ## 基准测试
-最后但并非最不重要的一点是，Dragonfly 以其超高性能和极其可靠而闻名。通过在容器化环境中运行 Kubernetes 中的所有抽象层以及 Dragonfly，我们能够在 AWS实例上实现**130 万 QPS 和亚毫秒级 P99.9 延迟**`c6gn.8xlarge`。负载是使用[memtier-benchmark](https://github.com/RedisLabs/memtier_benchmark)工具生成的。详细的基准测试步骤和结果可以在下面的视频中找到。
+最后但并非最不重要的一点是，Dragonfly 以其超高性能和极其可靠而闻名。通过在容器化环境中运行 Kubernetes 中的所有抽象层以及 Dragonfly，我们能够在 AWS 实例上实现**130 万 QPS 和亚毫秒级 P99.9 延迟**`c6gn.8xlarge`。负载是使用[memtier-benchmark](https://github.com/RedisLabs/memtier_benchmark)工具生成的。详细的基准测试步骤和结果可以在下面的视频中找到。
 
 ---
 ## 结论
