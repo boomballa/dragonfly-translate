@@ -1,14 +1,14 @@
 # 哨兵晋升角色
-# 哨兵促销
-## [简介](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#introduction "直接链接到简介")
-在上一节中，我们深入研究了[复制](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/replication)技术，这是一种使用`REPLICAOF`命令进行可靠数据传输的强大方法。然而，虽然这种技术具有显着的优点，但仍然存在一个小缺点：需要一个停机时间窗口，尽管可能很短暂。这需要重新配置并重新启动服务器应用程序。
+# 哨兵晋升
+## [简介](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#简介 "直接链接到简介")
+在上一节中，我们深入研究了[复制](/docs/migratin-to-dragonfly/from-redis-instance/replication.md)技术，这是一种使用`REPLICAOF`命令进行可靠数据传输的强大方法。然而，虽然这种技术具有显着的优点，但仍然存在一个小缺点：需要一个停机时间窗口，尽管可能很短暂。这需要重新配置并重新启动服务器应用程序。
 
 在本节中，我们将通过介绍一项先进技术提升到新的复杂程度：利用 Redis Sentinel 的功能。***该技术有望超越停机时间的限制，使您能够以几乎不间断的**** *服务连续性执行迁移。
 
-## Redis[哨兵](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#redis-sentinel "直接链接到 Redis Sentinel")
+## Redis [哨兵](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#redis-哨兵 "直接链接到 Redis Sentinel")
 Redis Sentinel 是一个分布式系统，旨在监控和管理 Redis 实例，主要用于实现高可用性和自动故障转移。通过协调多个 Redis 实例的部署，Sentinel 可确保您的应用程序能够在节点故障中正常运行，从而保持系统的稳健性。本质上，Sentinel实例只是一个以特殊模式运行的Redis实例。自动处理故障转移的能力也可用于执行迁移。
 
-## 迁移[步骤](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#migration-steps "直接链接到迁移步骤")
+## 迁移[步骤](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#迁移步骤 "直接链接到迁移步骤")
 概括地说，涉及的步骤如下：
 
 * 启动一个新的 Dragonfly 实例并将其配置为源（主）Redis 实例的副本。
@@ -16,7 +16,7 @@ Redis Sentinel 是一个分布式系统，旨在监控和管理 Redis 实例，�
 * 允许复制达到稳定状态并使用`INFO replication`命令进行监控。
 * 让 Sentinel 提升 Dragonfly 实例成为新的主实例。
 
-如您所见，这些步骤与[复制](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/replication)技术类似。这里的主要区别是利用 Sentinel 进行自动且可靠的转换，将 Dragonfly 实例提升为新的主实例。
+如您所见，这些步骤与[复制](/docs/migratin-to-dragonfly/from-redis-instance/replication.md)技术类似。这里的主要区别是利用 Sentinel 进行自动且可靠的转换，将 Dragonfly 实例提升为新的主实例。
 
 在以下示例中，我们将假设：
 
@@ -24,7 +24,7 @@ Redis Sentinel 是一个分布式系统，旨在监控和管理 Redis 实例，�
 * 新的 Dragonfly 实例使用主机名dragonfly、IP 地址200.0.0.2和端口运行6380。
 * Sentinel 实例使用主机名sentinel、IP 地址200.0.0.3和端口运行5000。
 
-### 1\. 源[实例](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#1-source-instance "直接链接到 1. 源实例")
+### 1\. 源[实例](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#1-源实例 "直接链接到 1. 源实例")
 假设原始源Redis实例正在运行，您可以查看其复制信息：
 
 ```bash
@@ -35,8 +35,8 @@ connected_slaves:0
 ```
 **假设源 Redis 实例已由 Sentinel 实例或 Sentinel 集群管理。否则，仍然需要重新配置服务器应用程序，这意味着潜在的停机时间窗口。** 但是，如果您的应用程序在 Kubernetes 等容器编排器上运行，则滚动更新机制可以帮助最大限度地减少停机时间。
 
-### 2.配置[哨兵](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#2-configure-sentinel "直接链接到2.配置Sentinel")
-**如果您的源 Redis 实例尚未由 Sentinel 管理，请按照以下步骤操作。**否则，继续[配置复制](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#3-configure-replication)。
+### 2\.配置 [哨兵](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#2配置-哨兵 "直接链接到2.配置Sentinel")
+**如果您的源 Redis 实例尚未由 Sentinel 管理，请按照以下步骤操作。**否则，继续[配置复制](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#3-配置复制)。
 
 要在 Sentinel 模式下启动 Redis 实例，您可以使用`sentinel.conf`如下所示的最小文件：
 
@@ -78,7 +78,7 @@ client := redis.NewFailoverClient(&redis.FailoverOptions{
 
 Sentinel 到客户端的通知机制由 Pub/Sub 提供支持，您可以[在此处](https://redis.io/docs/management/sentinel/)阅读有关 Sentinel 内部结构的更多信息。 **使用与 Sentinel 兼容的客户端对于实现最短停机迁移目标至关重要。**
 
-### 3\. 配置[复制](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#3-configure-replication "直接链接到 3. 配置复制")
+### 3\. 配置 [复制](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#3-配置-复制 "直接链接到 3. 配置复制")
 全面介绍了Sentinel，目标仍然是将Redis实例迁移到Dragonfly实例。启动一个新的 Dragonfly 实例并使用`REPLICAOF`命令指示自身从源复制数据：
 
 ```bash
@@ -127,7 +127,7 @@ sentinel:5000$> SENTINEL REPLICAS master-instance
 # ... output
 # ... omitted
 ```
-### 4\. 将副本提升为[主要](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#4-promote-replica-as-primary "直接链接到 4. 将副本升级为主副本")
+### 4\. 将副本提升为[Primary 主副本](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#4-将副本提升为primary-主副本 "直接链接到 4. 将副本升级为主副本")
 现在您已完成设置。让我们回顾一下当前的拓扑：
 
 * 有一个主 Redis 实例 ( `redis-source`, `200.0.0.1:6379`)。
@@ -164,7 +164,7 @@ sentinel:5000$> SENTINEL REPLICAS master-instance
 ```
 正如您所看到的，现在 Dragonfly 实例是主实例，我们可以安全地关闭作为副本的 Redis 实例。关闭 Redis 实例后，Sentinel 将无法再次将其提升为主实例。您已成功迁移到 Dragonfly。
 
-## [注意事项](https://www.dragonflydb.io/docs/migrating-to-dragonfly/from-redis-instance/sentinel-promotion#considerations "直接链接到注意事项")
+## [注意事项](/docs/migratin-to-dragonfly/from-redis-instance/sentinel-promotion.md#注意事项 "直接链接到注意事项")
 使用 Redis Sentinel 执行迁移引入了一系列对于确保平稳成功过渡至关重要的注意事项。以下是一些需要记住的关键注意事项：
 
 * **停机时间：**虽然 Redis Sentinel 旨在最大限度地减少停机时间，但在故障转移/升级期间仍然可能会出现轻微的中断。评估您的应用程序对停机的容忍度并做出相应的计划。
