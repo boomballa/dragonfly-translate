@@ -66,7 +66,7 @@ Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC
 * Dragonfly 仅需要 614.75MB 来存储此 BigKey。
 * 相比之下，Redis 存储此 BigKey 大约消耗 891.88MB。
 
-这些数字强化了 Dragonfly 与 Redis 相比在内存利用率方面的卓越效率，导致稳态内存使用量减少了 30%，如[Redis 与 Dragonfly 可扩展性和性能博客文章](https://www.dragonflydb.io/blog/scaling-performance-redis-vs-dragonfly)中详细介绍的那样。
+这些数字强化了 Dragonfly 与 Redis 相比在内存利用率方面的卓越效率，导致稳态内存使用量减少了 30%，如[Redis 与 Dragonfly 可扩展性和性能博客文章](/blogs/scaling-performance-redis-vs-dragonfly.md)中详细介绍的那样。
 
 ### 读取 BigKey
 虽然避免对如此大的Key执行完全读取(也就是, `HGETALL`)是常见的做法，但出于实验目的，我们在 Dragonfly 和 Redis 上都执行了此操作。时间复杂度为`HGETALL`O(N)，其中 N 代表哈希的大小，在我们的例子中为 1000 万。在现实场景中，较小的批量读取（即`HSCAN`）将是更可取的方法。我们的实验是使用以下方法进行的：
@@ -102,7 +102,7 @@ Dragonfly 声称自己是地球上性能最高的内存数据存储，在 AWS EC
 
 我们的实验结果清楚地表明执行`HGETALL`full-read 操作的速度相当慢，这主要是由于其 O(N) 时间复杂度和网络 I/O。虽然我们预计 Dragonfly 和 Redis 都会出现一定程度的迟缓，但这两个系统之间的差异很大。
 
-需要考虑的一个重要方面是 Redis 命令执行架构的单线程性质（如以下[discussed](https://www.dragonflydb.io/blog/fearlessly-handling-bigkeys-with-dragonfly#discussion--best-practices)所述)。 *在 Redis 中处理命令期间**HGETALL**，所有其他并发命令执行都会经历相当长的持续时间（以秒为单位）的大幅暂停，从而加剧了整体性能影响。*
+需要考虑的一个重要方面是 Redis 命令执行架构的单线程性质（如以下[discussed](/blogs/fearlessly-handling-bigkeys-with-dragonfly.md)所述)。 *在 Redis 中处理命令期间**HGETALL**，所有其他并发命令执行都会经历相当长的持续时间（以秒为单位）的大幅暂停，从而加剧了整体性能影响。*
 
 相比之下，Dragonfly 通过在正在进行的full-read的情况下保持对读写操作的响应能力来展示其优势。在这种情况下遇到的唯一瓶颈是客户端，它等待full-read响应。这一优势可以归功于 Dragonfly 的多线程、无共享架构。
 
@@ -220,7 +220,7 @@ func main() {
 从 Dragonfly 版本 1.8.0 开始，该`UNLINK`命令的行为与`DEL`相同，是同步操作。然而，正如我们多次指出的，当 Dragonfly 运行消耗资源的命令时，其他并发命令执行不会受到太大影响。
 
 ### 最佳实践 - `EXPIRE`懒惰释放
-在上面[这一部分](https://www.dragonflydb.io/blog/fearlessly-handling-bigkeys-with-dragonfly#the-scenario)中，我们确立了不能自动使 BigKey `blocked_user_ids`过期的应用场景，因为我们需要等待分析团队完成工作才能删除。这种情况导致了`DEL`命令的使用。但是，一旦分析团队完成，我们就可以利用过期命令（`EXPIRE`、`PEXIRE`、`EXPIREAT`或`PEXIREAT`）来删除 BigKey（如果它与应用程序逻辑一致）。
+在上面[这一部分](/blogs/fearlessly-handling-bigkeys-with-dragonfly.md#场景)中，我们确立了不能自动使 BigKey `blocked_user_ids`过期的应用场景，因为我们需要等待分析团队完成工作才能删除。这种情况导致了`DEL`命令的使用。但是，一旦分析团队完成，我们就可以利用过期命令（`EXPIRE`、`PEXIRE`、`EXPIREAT`或`PEXIREAT`）来删除 BigKey（如果它与应用程序逻辑一致）。
 
 在 Redis 中，过期的Key会立即从`keyspace`中删除，使应用程序无法访问它们。然而，***实际的删除（回收内存）默认是在主线程中定期执行的***。这意味着如果 Redis 需要同时使一个 BigKey 或多个Key过期，则可能会导致主线程停止运行，从而导致 Redis 服务器在此过程中无法响应其他命令。[更多详细信息可以在这里](https://redis.io/commands/expire/)找到。从Redis 4.0版本开始，我们可以配置`lazyfree-lazy-expire`为`yes`后台执行实际删除。
 
@@ -244,7 +244,7 @@ Dragonfly 的目标是与 Redis 完全兼容，确保您在切换到 Dragonfly �
 * 客户端实例——GCP `e2-standard-2`（2个vCPU，1个核心，8GB内存）
 * 客户端和服务器实例位于同一区域并通过专用网络进行通信。
 
-对于我们在本博客中进行的实验，我们为服务器选择了中等实例，而不是较大的内存优化实例。因为我们的目标不是将 DragonflyDB 或 Redis 推向极限，就像我们在[Redis 与 Dragonfly 可扩展性和性能博客文章](https://www.dragonflydb.io/blog/scaling-performance-redis-vs-dragonfly)中所做的那样，而是看看单个 BigKey 如何影响它们的性能。这个中等`c2-standard-16`实例的处理能力很强，并且有足够的内存来容纳我们测试的BigKey。
+对于我们在本博客中进行的实验，我们为服务器选择了中等实例，而不是较大的内存优化实例。因为我们的目标不是将 DragonflyDB 或 Redis 推向极限，就像我们在[Redis 与 Dragonfly 可扩展性和性能博客文章](/blogs/scaling-performance-redis-vs-dragonfly.md)中所做的那样，而是看看单个 BigKey 如何影响它们的性能。这个中等`c2-standard-16`实例的处理能力很强，并且有足够的内存来容纳我们测试的BigKey。
 
 ## 结论
 在这篇博文中，我们探讨了 BigKey 的概念以及它们在 Redis 等传统内存数据库中带来的挑战。回顾一下，以下是使用 BigKeys 时应遵循的重要最佳实践：
@@ -258,4 +258,4 @@ Dragonfly 的目标是与 Redis 完全兼容，确保您在切换到 Dragonfly �
 
 虽然仍有最佳实践和模式可供遵循，但由于其革命性的架构和出色的硬件效率，在 Dragonfly 中使用 BigKeys 变得更加无缝和无所畏惧。
 
-要更深入地了解 Dragonfly，我们鼓励您参考我们的[文档](https://www.dragonflydb.io/docs/getting-started)，它将帮助您在短短几分钟内开始运行 Dragonfly。此外，我们的[博客](https://www.dragonflydb.io/blog)还包含一系列引人入胜的帖子，突出了 Dragonfly 的卓越功能。快乐编码！
+要更深入地了解 Dragonfly，我们鼓励您参考我们的[文档](/docs/getting-start/README.md)，它将帮助您在短短几分钟内开始运行 Dragonfly。此外，我们的[博客](/blogs/README.md)还包含一系列引人入胜的帖子，突出了 Dragonfly 的卓越功能。快乐编码！
