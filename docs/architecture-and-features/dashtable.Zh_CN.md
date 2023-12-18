@@ -37,7 +37,7 @@ Dashtable 是 Dragonfly 中非常重要的数据结构。本文档解释了它�
 
 [Dashtable](https://arxiv.org/abs/2003.07302) 是1979年一种被称为 [extendible hashing](https://en.wikipedia.org/wiki/Extendible_hashing) 可扩展哈希的演变。
 
-与经典的哈希表类似，dashtable (DT) 也在前面保存了一个指针数组。 然而， 与经典表不同， 它指向 `segments` 而不指向item的链接列表。 每个 `segment` 事实上，每个都是一个大小恒定的迷你哈希表。 前面指向 segments 的数组称为 `directory`。与经典表相似， 当一个 item 被插入 DT 中时， 它首先通过 item 的 hash 值确定 segment。 该 segment 被实现为一个具有开放寻址散列方案的 hashtable，并且正如我所说的， - 大小恒定。 一旦确定了 segment ，该 item 就会被插入到其 bucket 中。 如果成功插入一个 item ， 我们就完成了，否则，该 segment 已满并且需要分裂。 DT 会把一个满了的 segment 内容拆分成两个 segment， 并将新增的segment添加到 directory 中。 然后它会尝试再次插入该 item 。总而言之，经典的链式哈希表（chaining hash-table） 是建立在动态链接数组之上的，而 dashtable 更像是恒定大小的平面哈希表（flat hash-table）的动态数组。
+与经典的哈希表类似，Dashtable (DT) 也在前面保存了一个指针数组。 然而， 与经典表不同， 它指向 `segments` 而不指向item的链接列表。 每个 `segment` 事实上，每个都是一个大小恒定的迷你哈希表。 前面指向 segments 的数组称为 `directory`。与经典表相似， 当一个 item 被插入 DT 中时， 它首先通过 item 的 hash 值确定 segment。 该 segment 被实现为一个具有开放寻址散列方案的 hashtable，并且正如我所说的， - 大小恒定。 一旦确定了 segment ，该 item 就会被插入到其 bucket 中。 如果成功插入一个 item ， 我们就完成了，否则，该 segment 已满并且需要分裂。 DT 会把一个满了的 segment 内容拆分成两个 segment， 并将新增的segment添加到 directory 中。 然后它会尝试再次插入该 item 。总而言之，经典的链式哈希表（chaining hash-table） 是建立在动态链接数组之上的，而 dashtable 更像是恒定大小的平面哈希表（flat hash-table）的动态数组。
 
 ![Dashtable Diagram](./dashtable.svg)
 
@@ -109,7 +109,7 @@ Dashtable 是 Dragonfly 中非常重要的数据结构。本文档解释了它�
 
 正如您在图表中看到的，即使在 BGSAVE 启动之前，Redis也使用了50% 的内存。大约14秒左右的位置，BGSAVE 在两台服务器上启动。从视觉上看，您在 Dragonfly 图上几乎看不到有此事件，但在 Redis 图上看得很清楚。Dragonfly 只花了几秒钟就完成了快照（同样，无法看到），大约第 20秒的时候， Dragonfly 已经完成 BGSAVE 了。您可以在第39秒看到一个明显的断崖式曲线，Redis 完成其快照，在峰值时内存使用量几乎增加了3倍。
 
-### 在写入期间item过期
+### 在写入期间 item 过期
 
 高效的过期对于很多场景来说非常重要。例如，[Pelikan paper'21](https://twitter.github.io/pelikan/2021/segcache.html)。 Twitter团队表示，通过采用更好的过期方法，他们的内存占用量可以潇洒哦多达 60%，上述帖子的作者在下表中展示了过期方法的优缺点：
 
