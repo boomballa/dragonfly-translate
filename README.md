@@ -93,7 +93,6 @@ hook | 钩子
 hop | 消息跳跃
 dispatch | 发起
 dispatcher | 分发器
-PVC | PersistentVolumeClaim 是用户针对一个持久卷的请求和申领
 replica | 从库，副本
 non-blocking | 非阻塞
 coordinator | 协调器
