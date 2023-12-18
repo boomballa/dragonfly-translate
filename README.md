@@ -63,3 +63,59 @@
   * [宣布Dragonfly Kubernetes Operator全面可用](/blogs/announcing-kubernetes-operator-general-availability.md)
   * [Dragonfly内存数据库现在支持复制以实现高可用性](/blogs/replication-for-high-availability.md)
   * [Redis与Dragonfly的可扩展性和性能](/blogs/scaling-performance-redis-vs-dragonfly.md)
+
+
+## 翻译说明
+
+### 翻译规范
+* 不译的英文名词复数改为单数，因为中文没有复数的概念；
+* 专有名词保持大写：HTML, HAML, SASS, REST... 等等；
+* 英文和数字与中文之间要留空格。中文标点符号和中文之间不需要留空格；
+* 使用中文的标点符号。句号是 `。` 不是 `.`，破折号是 `——` 不是 `-`；
+* 英文有斜体、中文没有，可用强调取代 `**强调**`；
+* 代码缩进使用两个空格，禁止使用 Tab；
+* 按照语义把英文逗号改为中文顿号；
+* 译完保证语句通顺
+
+### 保留不译的名次
+有些为数据库常用的专有名词，在不造成读者理解困难的情况下，尽量保持原状。
+
+英文  | 说明
+----- | ------
+key | 键
+value | 值
+entry | 条目
+item | 项目
+segment | 段
+bucket | 桶
+slot | 槽
+hook | 钩子
+hop | 消息跳跃
+dispatch | 发起
+dispatcher | 分发器
+PVC | PersistentVolumeClaim 是用户针对一个持久卷的请求和申领
+replica | 从库，副本
+non-blocking | 非阻塞
+coordinator | 协调器
+fiber | 纤程
+mutable | 可变
+immutable | 不可变
+
+
+### 小贴士
+
+* [Bing 词典](http://cn.bing.com/dict/) 可以查询相关的翻译
+* [谷歌翻译](https://translate.google.com/) 对整句处理的较好
+
+
+### 建议与反馈
+
+有翻译不准确的地方欢迎赐教指正，也欢迎提出任何建议！直接开一个 github issues 就好。
+
+
+
+### 扩展阅读资料
+* [单独链接法（Separate Chaining）](https://www.baeldung.com/cs/hashing-separate-chaining)
+* [开放地址法（Open Addressing）](https://alrightchiu.github.io/SecondRound/hash-tableopen-addressing.html)
+* [近因效应（recency effect）](https://wiki.mbalib.com/zh-tw/%E8%BF%91%E5%9B%A0%E6%95%88%E5%BA%94)
+* [可扩展哈希（Extendible hashing）](https://en.wikipedia.org/wiki/Extendible_hashing)
