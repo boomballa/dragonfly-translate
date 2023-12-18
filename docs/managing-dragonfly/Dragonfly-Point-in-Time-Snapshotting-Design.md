@@ -1,7 +1,7 @@
 # Dragonfly 时间点快照设计
-以下文档描述了 Dragonfly 的时间点、无fork快照过程的内部结构。有关设置 Dragonfly 备份设置的指南，请参阅[备份](https://www.dragonflydb.io/docs/managing-dragonfly/backups) 文档。
+以下文档描述了 Dragonfly 的时间点、无fork快照过程的内部结构。有关设置 Dragonfly 备份设置的指南，请参阅[备份](/docs/managing-dragonfly/Saving-Backups.md) 文档。
 
-## 兼容 Redis 的 RDB
+## 兼容 Redis 的 RDB[​](/docs/managing-dragonfly/Dragonfly-Point-in-Time-Snapshotting-Design.md#兼容-redis-的-rdb​ "直接链接到 兼容 Redis 的 RDB")
 该快照被序列化为单个文件或网络socket。此配置用于创建与 Redis 兼容的备份快照。
 
 该算法利用 Dragonfly 的无共享架构，并确保每个分片线程仅序列化自己的数据。以下是流程的高级描述。
@@ -20,12 +20,12 @@ TODO：将代码库中的它们重命名为另一个名称（SnapshotShard？）
 
 总而言之，此配置使用单个接收器来创建代表整个数据库的一个文件或一个数据流。
 
-## Dragonfly快照(TBD)
+## Dragonfly快照(TBD)[​](/docs/managing-dragonfly/Dragonfly-Point-in-Time-Snapshotting-Design.md#dragonfly快照tbd​​ "直接链接到 Dragonfly快照")
 由于复制所需。需要创建多个文件，每个 SnapshotShard 一个文件。不需要中央水槽。每个 SnapshotShard 仍然使用 RdbSerializer 和 StringFile 来保证存储桶级别的粒度。如果我们想使用直接 I/O，我们仍然需要 AlignedBuffer。对于具有 N 个分片的 DF 进程，它将创建 N 个文件。可能需要额外的元数据文件来提供文件级一致性，但现在我们可以假设只创建了 N 个文件，因为我们的用例将是基于网络的复制。
 
 它具体怎么使用呢？副本（Slave）将与master握手并了解其拥有多少个分片。然后它将打开`N`个sockets，每个sockets都会提取分片数据。首先，他们将提取快照数据，通过将entry分发到K个副本分片中。在重放所有快照数据后，它们将继续重放更改日志（stable state replication），这超出了本文档的讨论范围。
 
-## 放松的 point-in-time (TBD)
+## 放松的 point-in-time (TBD)[​](/docs/managing-dragonfly/Dragonfly-Point-in-Time-Snapshotting-Design.md#放松的-point-in-time-tbd​ "直接链接到 放松的 point-in-time")
 当 DF 将其快照文件保存在磁盘上时，它通过对所有进程分片应用虚拟切口技术来维护快照隔离。快照可能需要一些时间，在此期间，DF可能会处理很多写入请求。这些突变不会成为快照的一部分，因为切口会捕获截从 **其开始 **时间点所有的数据。这非常适合备份。我将这种变化称为“保守快照”。
 
 **但是，当我们执行复制快照时，我们希望生成一个快照，其中包含快照完成**时为止的所有数据。我把这种称为 *轻松快照*。宽松快照的原因是避免在快照创建期间保留所有变更的变更日志。
@@ -34,7 +34,7 @@ TODO：将代码库中的它们重命名为另一个名称（SnapshotShard？）
 
 快照阶段（完全同步）可能会占用大量时间，从而给系统增加大量内存压力。在完全同步阶段将更改日志放在一边只会增加更多压力。我们通过将更改推送到复制socket而不将它们保存在一边来实现轻松的快照。当然，我们仍然需要时间点一致性，以便知道快照何时完成以及稳定状态复制何时开始。
 
-## 保守而轻松的快照变化过程
+## 保守而轻松的快照变化过程[​](/docs/managing-dragonfly/Dragonfly-Point-in-Time-Snapshotting-Design.md#保守而轻松的快照变化过程​​ "直接链接到 保守而轻松的快照变化过程")
 两种算法都维护一个扫描过程（光纤），迭代地遍历主字典并序列化其数据。在开始该过程之前，SnapshotShard 会捕获其分片的更改epoch（该epoch随着每个写入请求而增加）。
 
 ```cpp

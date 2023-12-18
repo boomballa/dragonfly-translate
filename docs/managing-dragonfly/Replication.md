@@ -11,10 +11,10 @@ role
 ```
 该命令将返回 `master` 或 `replica` 。
 
-## Redis/Dragonfly复制
+## Redis/Dragonfly复制[](/docs/managing-dragonfly/Replication.md#redisdragonfly复制 "直接链接到使用 redis/dragonfly复制")
 Dragonfly 支持 Redis -> Dragonfly 复制，以便将 Redis 工作负载方便地迁移到 Dragonfly。目前我们支持Redis OSS的数据结构和复制协议，最高版本为6.2。以下说明也适用于这种类型的复制，唯一的区别是主实例是正在运行的 Redis 服务器。
 
-## Dragonfly/Dragonfly复制
+## Dragonfly/Dragonfly复制[](/docs/managing-dragonfly/Replication.md#dragonflydragonfly复制 "直接链接到使用 dragonfly/dragonfly复制")
 这个复制过程在内部与原来的Redis复制算法有很大不同，但从外部来看，API保持相同，以使其与当前的生态系统兼容。
 
 要将 Dragonfly 实例指定为另一个动态实例的副本，请运行以下 `replicaof` 命令。此命令采用预期的主服务器的主机名或 IP 地址和端口作为参数：
@@ -31,7 +31,7 @@ replicaof no one
 ```
 这将阻止实例复制master服务器，但不会丢弃已复制的数据集。当原始主数据库发生故障时，此语法非常有用。在发生故障的主副本的副本上运行后`replicaof no one`，以前的副本可以用作新的master副本，并拥有自己的副本作为故障保护。
 
-## 使用 TLS 进行安全复制——[先决条件](https://www.dragonflydb.io/docs/managing-dragonfly/replication#secure-replication-with-tls----prerequisites "直接链接到使用 TLS 进行安全复制 — 先决条件")
+## 使用 TLS 进行安全复制——[先决条件](/docs/managing-dragonfly/Replication.md#使用-tls-进行安全复制先决条件 "直接链接到使用 TLS 进行安全复制 — 先决条件")
 Dragonfly 支持通过 TLS 进行复制。为了使其发挥作用，您需要：
 
 1. 将 Dragonfly 实例配置为使用 TLS。这包括获取或生成服务器证书。
@@ -66,7 +66,7 @@ openssl x509 -req -in server-req.pem -days 365 -CA ca-cert.pem -CAkey ca-key.pem
 
 生成私钥时，请始终注意安全地存储和配置它们！
 
-## 使用[TLS](https://www.dragonflydb.io/docs/managing-dragonfly/replication#secure-replication-with-tls "直接链接到使用 TLS 进行安全复制")
+## 使用[TLS](/docs/managing-dragonfly/Replication.md#使用tls "直接链接到使用 TLS 进行安全复制")
 要为 Dragonfly 启用 TLS，您必须提供以下参数：
 
 ```bash
@@ -86,7 +86,7 @@ REPLICAOF LOCALHOST 6379
 ```
 现在，复制通过 TLS 运行并且是安全的。此示例假设这`ca-cert.pem`是一个用于验证服务器和客户端身份的根证书。例如，如果服务器使用由公共 CA 签名的证书，则不应将此标志作为参数传递给副本。
 
-## 配置 TLS 的[Dragonfly](https://www.dragonflydb.io/docs/managing-dragonfly/replication#non-tls-connections-over-admin-port-on-tls-configured-dragonfly "通过 TLS 配置的 Dragonfly 上的管理端口直接链接到非 TLS 连接")
+## 配置 TLS 的[Dragonfly](/docs/managing-dragonfly/Replication.md#配置-tls-的dragonfly "通过 TLS 配置的 Dragonfly 上的管理端口直接链接到非 TLS 连接")
 有时，主节点和副本节点可能位于同一专用网络上。对于这种情况，您可能需要 TLS 用于专用网络之外的连接，但通过更安全的专用网络进行明文通信。在这种情况下，您可以专门在管理端口上禁用 tls 复制：
 
 开始大师：
@@ -108,6 +108,6 @@ REPLICAOF HOST 6380
 ```
 从现在开始，副本\_不再\_通过 TLS 进行通信，但端口上的传入连接`6379, 6381`需要 TLS，并且被认为是安全的。
 
-## 监控[滞后](https://www.dragonflydb.io/docs/managing-dragonfly/replication#monitoring-lag "直接链接到监控延迟")
-Dragonfly 将复制延迟定义为所有分片中未确认数据库的最大数量。[该指标由主实例计算，并且作为prometheus 指标](https://www.dragonflydb.io/docs/managing-dragonfly/monitoring)`dfly_connected_replica_lag_records`中的字段以及通过命令可见。`INFO REPLICATION`
+## 监控[延迟](/docs/managing-dragonfly/Replication.md#监控延迟 "直接链接到监控延迟")
+Dragonfly 将复制延迟定义为所有分片中未确认数据库的最大数量。[该指标由主实例计算，并且作为prometheus 指标](/docs/managing-dragonfly/Monitoring.md)`dfly_connected_replica_lag_records`中的字段以及通过命令可见。`INFO REPLICATION`
 

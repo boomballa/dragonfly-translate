@@ -1,22 +1,22 @@
 # 备份保存
 Dragonfly 实例可以自动和手动生成磁盘备份。许多标志会影响备份机制的行为。可以通过命令行或通过[标志文件](https://www.dragonflydb.io/docs/getting-started/binary#flag-files)给出标志。
 
-## 自动[备份](https://www.dragonflydb.io/docs/managing-dragonfly/backups#automatic-backups "直接链接到自动备份")
+## 自动[备份](/docs/managing-dragonfly/Saving-Backups.md#自动备份 "直接链接到自动备份")
 `dbfilename`只要标志不为空，Dragonfly 就会在关闭时创建备份。此外，Dragonfly 可以配置为使用该`snapshot_cron`标志执行计划备份。注意：
 
 * 在 Dragonfly >= 1.7.1 中，`snapshot_cron`引入了该标志。
 * 在 Dragonfly < 1.7.1 中，只能`save_schedule`使用标志。
 * 该`save_schedule`标志已被弃用，并将在未来的版本中完全删除。
 
-[了解下面有关备份标志](https://www.dragonflydb.io/docs/managing-dragonfly/backups#flags)的详细用法的更多信息。
+[了解下面有关备份参数](/docs/managing-dragonfly/Saving-Backups.md#参数flags)的详细用法的更多信息。
 
-## 手动[备份](https://www.dragonflydb.io/docs/managing-dragonfly/backups#manual-backups "直接链接到手动备份")
+## 手动[备份](/docs/managing-dragonfly/Saving-Backups.md#手动备份 "直接链接到手动备份")
 `SAVE`可以使用或命令手动触发备份`BGSAVE`。
 
-## 自动[装载](https://www.dragonflydb.io/docs/managing-dragonfly/backups#automatic-loading "直接链接到自动加载")
+## 自动[加载](/docs/managing-dragonfly/Saving-Backups.md#自动加载 "直接链接到自动加载")
 当 Dragonfly 实例启动时，它将尝试在其配置的路径中查找快照文件`dir`并自动加载它。`dbfilename`与自动备份一样，可以通过配置空值来禁用此功能。
 
-## 参数flags
+## 参数flags[](/docs/managing-dragonfly/Saving-Backups.md#参数flags "直接链接到 参数flags")
 * **dir**-- A path to the directory where the backup snapshot files will be saved.
 * df\_snapshot\_format -- Set to true to save snapshots in Dragonfly file format, true by default.
 * dbfilename -- The filename to save and load the database. See more details about this flag below.
@@ -58,7 +58,7 @@ my-snapshot-file-2023-08-10T07:23:07-summary.dfs
 my-snapshot-file-2023-08-10T07:23:12-0000.dfs
 my-snapshot-file-2023-08-10T07:23:12-summary.dfs
 ```
-### 参数[\_](https://www.dragonflydb.io/docs/managing-dragonfly/backups#the-snapshot_cron-flag%20%22Direct%20link%20to%20the-snapshot_cron-flag%22)`snapshot_cron`
+### 参数 `snapshot_cron`[](/docs/managing-dragonfly/Saving-Backups.md#参数-snapshot_cron)
 在 Dragonfly >= 1.7.1 中，`snapshot_cron`引入了该标志。如果可用，强烈建议优先考虑该`snapshot_cron`标志而不是已弃用的`save_schedule`标志。顾名思义，`snapshot_cron`为 Dragonfly 实例建立一个 cron 计划，从而启用自动备份快照。
 
 Cron（或 crontab）作为类 Unix 操作系统上广泛使用的作业调度程序：
@@ -117,7 +117,7 @@ dump-2023-08-10T00:25:00-summary.dfs
 # ... output
 # ... omitted
 ```
-## 云[存储](https://www.dragonflydb.io/docs/managing-dragonfly/backups#cloud-storage "直接链接到云存储")
+## 云[存储](/docs/managing-dragonfly/Saving-Backups.md#云存储 "直接链接到云存储")
 [Dragonfly 支持在AWS S3](https://aws.amazon.com/s3/)而不是本地磁盘上保存和恢复备份。
 
 要使用 S3 存储或 S3 兼容服务（例如[MinIO ）](https://github.com/minio/minio)，请在使用您的 S3 存储桶 URL 配置上`--dir`标志。
@@ -145,7 +145,7 @@ $> ./dragonfly --logtostderr --dir s3://acme-backups/dragonfly/staging
 
 
 
-### [认证](https://www.dragonflydb.io/docs/managing-dragonfly/backups#authentication "Direct link to Authentication")
+### [认证](/docs/managing-dragonfly/Saving-Backups.md#认证 "直接链接至 认证")
 [Dragonfly 将使用标准 AWS 凭证提供程序](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html)从环境中推断您的 AWS 凭证 。
 
 Dragonfly 支持提供商：
@@ -156,7 +156,7 @@ Dragonfly 支持提供商：
 
 您还必须使用环境变量、共享配置文件或 EC2 元数据配置存储桶的 AWS 区域`AWS_REGION`。
 
-### S3 兼容[服务](https://www.dragonflydb.io/docs/managing-dragonfly/backups#s3-compatible-services "直接链接到 S3 兼容服务")
+### S3 兼容[服务](/docs/managing-dragonfly/Saving-Backups.md#s3-兼容服务 "直接链接到 S3 兼容服务")
 要使用 S3 兼容服务（例如[MinIO ）](https://github.com/minio/minio)，请按上述方式配置凭据，然后将`--s3_endpoint` 标志设置为您的服务端点。
 
 例如您在本地运行 MinIO 容器`localhost:9000`，请配置：

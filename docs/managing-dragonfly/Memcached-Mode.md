@@ -11,7 +11,7 @@ $> ./dragonfly --logtostderr --memcached_port 11211
 AcceptServer - listening on port 11211
 AcceptServer - listening on port 6379
 ```
-## Keyspace[共享](https://www.dragonflydb.io/docs/managing-dragonfly/memcached-mode#keyspace-sharing%20%22%E7%9B%B4%E6%8E%A5%E9%93%BE%E6%8E%A5%E5%88%B0%E5%AF%86%E9%92%A5%E7%A9%BA%E9%97%B4%E5%85%B1%E4%BA%AB%22)
+## Keyspace[共享](/docs/managing-dragonfly/Memcached-Mode.md#keyspace共享 "直接链接到 keyspace 共享")
 值得注意的是，**Memcached API 与 Redis API 逻辑数据库共享相同的键空间**`0`。这是一种设计行为，它允许您的后端服务使用不同的 API 来操作同一组数据。通过这样做，可以实现软迁移策略 - 如果需要，您可以逐渐将各个服务从 Memcached API 迁移出来。
 
 但是，Memcached 不支持复杂的数据类型（列表、集合、排序集、哈希等），并且不建议混合使用除字符串数据类型之外的两个 API 的操作。
