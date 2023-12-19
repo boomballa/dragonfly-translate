@@ -120,11 +120,16 @@ SnapshotShard | 快照分片
 
 ### 建议与反馈
 
-有翻译不准确的地方欢迎赐教指正，也欢迎提出任何建议！直接开一个 github issues 就好。
+有翻译不准确的地方欢迎指正，也欢迎提出任何建议！直接开一个 github issues 就好。
 
 ### 持续更新中...
-目前把相对重要的文档翻译完毕，后续会持续补充其他文档以及最近精彩Blog ...
+目前把相对重要的文档翻译完毕，后续会持续补充其他文档以及近期优秀 Blog ...
 
+### 官方页面
+* [Dragonfly 官方 github 主页](https://github.com/dragonflydb/dragonfly)
+* [Dragonfly 官方文档](https://www.dragonflydb.io/docs/)
+* [Dragonfly 官方博客地址](https://www.dragonflydb.io/blog)
+* [Dragonfly 社区版本主页](https://www.dragonflydb.io/features)
 
 ### 扩展阅读资料
 * [单独链接法（Separate Chaining）](https://www.baeldung.com/cs/hashing-separate-chaining)
