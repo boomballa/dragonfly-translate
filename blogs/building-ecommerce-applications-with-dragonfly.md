@@ -232,7 +232,7 @@ RedLock 旨在跨 Redis 的多个主实例扩展锁定机制。 由于 Dragonfly
 
 总体而言，Dragonfly 是一款用于构建和维护电商平台的多功能且强大的工具，能够熟练处理从日常用户交互到最苛刻的销售活动的各个方面。 尽管本博客中没有直接展示，但 Dragonfly 的性能是惊人的，正如我们之前的 [博客文章](https://www.dragonflydb.io/blog) 中详细讨论的那样。 我们鼓励您[亲自尝试 Dragonfly](https://www.dragonflydb.io/docs/getting-started) 并亲身体验其功能。 另外，请考虑订阅下面的时事通讯，以了解最新的 Dragonfly 新闻和更新！
 
-![image](images/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
+![image](/images/Nq2DN8w2lWawiAMBG1vLHtL2s7Ufbj7t_5CYM__ZBZw.png)
 
 
 
