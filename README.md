@@ -131,7 +131,7 @@ SnapshotShard | 快照分片
 * [Dragonfly 官方博客地址](https://www.dragonflydb.io/blog)
 * [Dragonfly 社区版本主页](https://www.dragonflydb.io/features)
 
-### 扩展阅读资料
+### 有趣的扩展阅读资料
 * [单独链接法（Separate Chaining）](https://www.baeldung.com/cs/hashing-separate-chaining)
 * [开放地址法（Open Addressing）](https://alrightchiu.github.io/SecondRound/hash-tableopen-addressing.html)
 * [近因效应（recency effect）](https://wiki.mbalib.com/zh-tw/%E8%BF%91%E5%9B%A0%E6%95%88%E5%BA%94)
