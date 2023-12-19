@@ -63,6 +63,7 @@
   * [宣布Dragonfly Kubernetes Operator全面可用](/blogs/announcing-kubernetes-operator-general-availability.md)
   * [Dragonfly内存数据库现在支持复制以实现高可用性](/blogs/replication-for-high-availability.md)
   * [Redis与Dragonfly的可扩展性和性能](/blogs/scaling-performance-redis-vs-dragonfly.md)
+  * [使用 Dragonfly 构建电商应用程序](/blogs/building-ecommerce-applications-with-dragonfly.md)
 
 
 ## 翻译说明
@@ -75,7 +76,7 @@
 * 英文有斜体、中文没有，可用强调取代 `**强调**`；
 * 代码缩进使用两个空格，禁止使用 Tab；
 * 按照语义把英文逗号改为中文顿号；
-* 译完保证语句通顺
+* 译完保证语句通顺；
 
 ### 保留不译的名词
 有些为数据库常用的专有名词，在不造成读者理解困难的情况下，尽量保持原状。
@@ -89,6 +90,7 @@ item | 项目
 segment | 段
 bucket | 桶
 slot | 槽
+lock | 锁
 hook | 钩子
 hop | 消息跳跃
 dispatch | 发起
@@ -97,18 +99,20 @@ replica | 从库，副本
 non-blocking | 非阻塞
 coordinator | 协调器
 fiber | 纤程
-mutable | 可变
-immutable | 不可变
-flag | 参数
+blob | 二进制类型的大对象
+score | 分数
+
 
 ### 说明并翻译的名词
 英文  | 说明
 ----- | ------
 shard | 分片
 queue | 队列
+flag | 参数
 transaction | 事务
 socket | 网络嵌套字
 SnapshotShard | 快照分片
+
 
 
 
