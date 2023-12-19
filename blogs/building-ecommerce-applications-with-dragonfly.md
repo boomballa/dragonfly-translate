@@ -4,7 +4,7 @@
 
 [周乔](https://www.dragonflydb.io/blog/authors/joe-zhou)   2023 年 11 月 16 日
 
-![image](images/0N67QaKNACX5-RfPQRN-7Ld_7v2wFwbRa7wQO5ElzsM.png)
+![image](/images/0N67QaKNACX5-RfPQRN-7Ld_7v2wFwbRa7wQO5ElzsM.png)
 
 ## 介绍
 在电商平台（e-commerce platform）的高强度（high-octane）世界中，响应速度和数据准确性都至关重要。 客户希望无缝访问搜索的商品、过去的订单、最近查看的产品和个性化推荐。 与此同时，这些应用程序的流量经常波动，尤其是在圣诞节或黑色星期五等高峰时段。 高流量事件还带来了重大挑战，需要快速响应和精确的数据处理。 解决这些变化通常需要可扩展且强大的内存数据存储解决方案。
