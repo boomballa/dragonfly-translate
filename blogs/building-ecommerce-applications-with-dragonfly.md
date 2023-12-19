@@ -1,4 +1,3 @@
-# building-ecommerce-applications-with-dragonfly
 # 使用 Dragonfly 构建电子商务应用程序
 在这篇博文中，我们将了解 Dragonfly 如何通过高效缓存、个性化内容和管理高流量事件来推动电商平台的发展。了解 Dragonfly 确保高峰时段平稳运行的功能。
 
