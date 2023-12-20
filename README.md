@@ -85,6 +85,7 @@
 ----- | ------
 key | 键
 value | 值
+element | 元素
 entry | 条目
 item | 项目
 segment | 段
