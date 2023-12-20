@@ -1,0 +1,49 @@
+# syntax=docker/dockerfile:1
+FROM ghcr.io/romange/ubuntu-dev:20 as builder
+
+ARG TARGETPLATFORM
+
+WORKDIR /build
+COPY tools/docker/fetch_release.sh /tmp/
+COPY releases/dragonfly-* /tmp/
+
+ARG SUEXEC_HASH=d6c40440609a23483f12eb6295b5191e94baf08298a856bab6e15b10c3b82891
+RUN curl -O https://raw.githubusercontent.com/ncopa/su-exec/212b75144bbc06722fbd7661f651390dc47a43d1/su-exec.c && \
+    if [ "$SUEXEC_HASH" != $(sha256sum su-exec.c | awk '{print $1}') ]; then echo "Wrong hash!" && exit 1; fi && \
+    gcc -Wall -O2 su-exec.c -o su-exec
+
+RUN /tmp/fetch_release.sh ${TARGETPLATFORM}
+
+# Now prod image
+FROM ubuntu:20.04
+
+# ARG in fact change the env vars during the build process
+# ENV persist the env vars for the built image as well.
+ARG QEMU_CPU
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN --mount=type=tmpfs,target=/var/cache/apt \
+    --mount=type=tmpfs,target=/var/lib/apt/lists \
+    apt -q update && \
+    apt install -q -y --no-install-recommends netcat-openbsd ca-certificates redis-tools
+
+RUN groupadd -r -g 999 dfly && useradd -r -g dfly -u 999 dfly
+RUN mkdir /data && chown dfly:dfly /data
+
+VOLUME /data
+WORKDIR /data
+
+COPY tools/docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY tools/docker/healthcheck.sh /usr/local/bin/healthcheck.sh
+COPY --from=builder /build/su-exec /usr/local/bin/
+COPY --from=builder /build/dragonfly /usr/local/bin/
+
+HEALTHCHECK CMD /usr/local/bin/healthcheck.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+# For inter-container communication.
+EXPOSE 6379
+
+USER dfly
+
+CMD ["dragonfly", "--logtostderr"]

@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_OPTIONS="noopt nostrip nocheck"
+
+%:
+	dh $@
+
+
+override_dh_auto_build:
+	@echo "no build is done here"
+
+override_dh_installchangelogs:
+	@echo "no change long installation"
+
+override_dh_auto_test:
+	@echo "no testing"
+
+override_dh_auto_clean:
+	dh_auto_clean
