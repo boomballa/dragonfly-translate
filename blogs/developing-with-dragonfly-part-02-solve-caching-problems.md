@@ -3,10 +3,10 @@
 
 [Joe Zhou](https://www.dragonflydb.io/blog/authors/joe-zhou)  2023 年 9 月 13 日
 
-![image](images/An5TBXflrAoCXpjZRPLxp0no8S8WlkFAyeGcgjNifUQ.png)
+![image](/images/An5TBXflrAoCXpjZRPLxp0no8S8WlkFAyeGcgjNifUQ.png)
 
 ## 介绍
-在我们的[上一篇博文](https://www.dragonflydb.io/blog/developing-with-dragonfly-part-01-cache-aside)中，**使用 Dragonfly 进行开发** 系列中，我们深入研究了最简单的缓存模式之一，称为 Cache-Aside。 这是一种简单的缓存方法，相对容易实现。 然而，正如我们将在这篇博文中探讨的那样，它还可以发现一些可能对您的服务产生重大影响的常见问题。 我们将重点介绍缓存管理中的 3 个主要问题，并分享避免这些问题的最佳实践。
+在我们的[上一篇博文](/blogs/developing-with-dragonfly-part-01-cache-aside.md#1-cache-aside-模式)中，**使用 Dragonfly 进行开发** 系列中，我们深入研究了最简单的缓存模式之一，称为 Cache-Aside。 这是一种简单的缓存方法，相对容易实现。 然而，正如我们将在这篇博文中探讨的那样，它还可以发现一些可能对您的服务产生重大影响的常见问题。 我们将重点介绍缓存管理中的 3 个主要问题，并分享避免这些问题的最佳实践。
 
 值得注意的是，这些缓存问题并不是 Dragonfly 所独有的。 即使 Dragonfly 具有卓越的效率和性能，这些挑战在各种缓存解决方案中仍然存在。 Dragonfly 的协议和命令与 Redis 兼容，这意味着它可以轻松集成到您的后端服务中，无需开发成本。 通过解决这些缓存问题并利用 Dragonfly 的优势，我们旨在帮助您顺利过渡到 Dragonfly，并在缓存基础设施方面取得更大的提升。
 
@@ -14,7 +14,7 @@
 ## 1\. 缓存穿透
 首先，我们来看看缓存穿透。 当缓存层找不到请求的数据并将请求直接转发到主数据库时，就会发生缓存未命中。 这种情况在缓存系统中很常见。 **但是，当缓存未命中，但主库也缺少所需数据时，就会发生缓存穿透。**
 
-![image](images/CCI_HfwwR31N08fCkM2Md8wmwPx3bmfeNLwg0dGnkFI.png)
+![image](/images/CCI_HfwwR31N08fCkM2Md8wmwPx3bmfeNLwg0dGnkFI.png)
 
 缓存穿透有效地使缓存层失效，主库成为争夺点。 如果黑客向系统发送大量包含随机密钥的请求，所有这些请求都会导致缓存未命中，并随后从主数据库中消失， 这可能会导致主数据库不堪重负，从而可能导致其失败。 现在，让我们深入研究两种广泛使用的技术来缓解缓存穿透问题。
 
@@ -24,20 +24,20 @@
 为了有效地管理这个问题，从缓存层中驱逐空结果至关重要。 这里有两种方法：
 
 * 在一段通常很短的时间后使空结果过期。 这是一种简单有效的驱逐空结果的方法，而且也很容易实现。
-* 采用强大且智能的逐出策略来逐出空结果。 此方法涉及根据各种因素（例如缓存使用模式、访问频率或内存限制）做出驱逐决策。 我们将在下面的 [Dragonfly LFRU 驱逐政策](https://www.dragonflydb.io/blog/developing-with-dragonfly-part-02-solve-caching-problems#dragonfly-lfru-eviction-policy) 部分中更详细地讨论这种方法。
+* 采用强大且智能的逐出策略来逐出空结果。 此方法涉及根据各种因素（例如缓存使用模式、访问频率或内存限制）做出驱逐决策。 我们将在下面的 [Dragonfly LFRU 驱逐政策](/blogs/developing-with-dragonfly-part-02-solve-caching-problems.md#dragonfly-lfru-驱逐政策) 部分中更详细地讨论这种方法。
 
 ### 布隆过滤器
 对抗缓存穿透（cache penetration）的另一个有价值的技术是使用 [布隆过滤器](https://en.wikipedia.org/wiki/Bloom_filter)。 布隆过滤器是一种概率数据结构，用于确定 element 是否属于特定 Set。 它因其空间效率而脱颖而出，通常比传统哈希表需要更少的内存，尽管可能会出现误报。 在缓存穿透的情况下，布隆过滤器可以充当保护机制，实现允许列表或阻止列表，以在请求到达主数据库之前对其进行过滤。
 
 从 Dragonfly 的当前版本 (v1.9.0) 开始，尚未原生支持 Bloom Filter 功能。 然而，Dragonfly 社区非常活跃，不断发展项目以满足用户的需求。 如果像 Bloom Filter 这样的功能对于您的场景至关重要，我们鼓励您与社区互动。 您可以通过 [提出问题](https://github.com/dragonflydb/dragonfly/issues) 或通过 Twitter 或 Discord 与 Dragonfly 社区联系来实现此目的，如本页底部所示。
 
-值得一提的是，Dragonfly 社区在响应用户反馈和增强请求方面有着良好的记录。 例如，他们最近通过从 式样（glob-style）模式备份调度转换为更普遍接受的 cron 式格式来解决可用性问题。 这一变更是由社区成员提出并实施的，展示了 Dragonfly 团队及其卓越社区的协作精神和响应能力。 您可以在我们的 [文档](https://www.dragonflydb.io/docs/managing-dragonfly/backups#flags) 中了解有关基于 cron 的备份计划的更多信息 并见证 Dragonfly 团队成员与热情社区之间的积极协同作用 [此处](https://github.com/dragonflydb/dragonfly/issues/1590)。
+值得一提的是，Dragonfly 社区在响应用户反馈和增强请求方面有着良好的记录。 例如，他们最近通过从 式样（glob-style）模式备份调度转换为更普遍接受的 cron 式格式来解决可用性问题。 这一变更是由社区成员提出并实施的，展示了 Dragonfly 团队及其卓越社区的协作精神和响应能力。 您可以在我们的 [文档](/docs/managing-dragonfly/Saving-Backups.md#参数flags) 中了解有关基于 cron 的备份计划的更多信息 并见证 Dragonfly 团队成员与热情社区之间的积极协同作用 [此处](https://github.com/dragonflydb/dragonfly/issues/1590)。
 
 ---
 ## 2\. 缓存崩溃
 接下来，我们来探讨一下缓存崩溃问题。 **当包含一段热数据的缓存 key 过期或意外从缓存中逐出时，就会发生缓存崩溃。**当这种情况发生时，多个请求同时查询相同的数据，由于高并发而导致数据库不堪重负。
 
-![image](images/baC_HW0okSEZmsbAXMbbKmIwwmhVyThvsecw8Xh55ZU.png)
+![image](/images/baC_HW0okSEZmsbAXMbbKmIwwmhVyThvsecw8Xh55ZU.png)
 
 Cache-Aside 策略在这种情况下也无效。 由于 Cache-Aside 被动地将数据加载到 Dragonfly 中，因此在活动频繁期间（想象一下明星的博客文章突然从缓存中消失），**多个高度并发的查询 **仍然可以到达并对数据库施加压力**。 **让我们深入研究缓解缓存崩溃问题的技术。
 
@@ -56,7 +56,7 @@ Refresh-Ahead 缓存策略提供了一种有效缓解缓存崩溃问题的实用
 ## 3\. 缓存雪崩
 最后，我们来看看缓存雪崩问题。 **缓存雪崩是指无法同时在缓存层中定位大量缓存 key 时出现的情况**， 导致查询突然激增，压垮主数据库。
 
-![image](images/hwuswv14afGSZYSjrgiHbAFTsuCK7G2fMFs4VpIEv_A.png)
+![image](/images/hwuswv14afGSZYSjrgiHbAFTsuCK7G2fMFs4VpIEv_A.png)
 
 缓存雪崩背后有两个主要原因：
 
@@ -74,7 +74,7 @@ Refresh-Ahead 缓存策略提供了一种有效缓解缓存崩溃问题的实用
 通过在缓解缓存雪崩的上下文中采用 Refresh-Ahead 方法，您可以主动刷新和维护缓存中的热数据，防止其完全过期。 此策略有助于确保经常访问的数据保持随时可用，从而降低缓存雪崩场景的风险，即大量缓存的键突然变得无效并压垮主数据库。
 
 ### 高可用性
-缓解缓存雪崩问题的最后一项技术是使缓存层高度可用。 当缓存层高度可用时，这意味着即使缓存层的主实例发生崩溃或停机，数据库也不会被意外的查询激增所淹没。 我们将在下面的 [Dragonfly 高可用性](https://www.dragonflydb.io/blog/developing-with-dragonfly-part-02-solve-caching-problems#dragonfly-high-availability) 部分中更详细地探讨 Dragonfly 中提供的高可用性选项。
+缓解缓存雪崩问题的最后一项技术是使缓存层高度可用。 当缓存层高度可用时，这意味着即使缓存层的主实例发生崩溃或停机，数据库也不会被意外的查询激增所淹没。 我们将在下面的 [Dragonfly 高可用性](/blogs/developing-with-dragonfly-part-02-solve-caching-problems.md#dragonfly高可用性) 部分中更详细地探讨 Dragonfly 中提供的高可用性选项。
 
 ---
 ## 讨论
@@ -154,13 +154,13 @@ if cacheTTL < m.refreshAheadDuration {
 ### Dragonfly高可用性
 Dragonfly 提供了多种强大的方法来确保缓存层的高可用性，这有助于防止缓存雪崩和维护系统稳定性：
 
-* [复制](https://www.dragonflydb.io/docs/managing-dragonfly/replication)： Dragonfly 支持复制，允许您设置从库（secondary）实例。 当主实例发生故障时，从库实例可以通过手动故障转移来接管，从而确保服务的适度高可用性。
+* [复制](/docs/managing-dragonfly/Replication.md)： Dragonfly 支持复制，允许您设置从库（secondary）实例。 当主实例发生故障时，从库实例可以通过手动故障转移来接管，从而确保服务的适度高可用性。
 * 与Redis哨兵的兼容性： Dragonfly 与 Redis 协议和命令的兼容性意味着它也可以与高可用性解决方案 Redis Sentinel 一起使用。 这种集成使您能够利用 Redis Sentinel 的既定功能来维持基于 Dragonfly 的缓存层的高可用性。
-* Kubernetes Operator： Dragonfly 提供了官方的 Kubernetes Operator，简化了 Dragonfly 在 Kubernetes 环境中的部署和管理。 利用此运算符，您可以在 Kubernetes 集群中实现高可用性，从而增强缓存层的弹性和可扩展性。 您可以参阅我们的 [文档](https://www.dragonflydb.io/docs/managing-dragonfly/high-availability) 了解有关此运算符的更多信息。
+* Kubernetes Operator： Dragonfly 提供了官方的 Kubernetes Operator，简化了 Dragonfly 在 Kubernetes 环境中的部署和管理。 利用此运算符，您可以在 Kubernetes 集群中实现高可用性，从而增强缓存层的弹性和可扩展性。 您可以参阅我们的 [文档](/docs/managing-dragonfly/High-Availability.md) 了解有关此运算符的更多信息。
 
 ---
 ## 结论
 这篇博文探讨了常见的缓存挑战，包括缓存穿透、缓存崩溃和缓存雪崩，并提供了缓解这些问题的实用技术。 我们讨论了 Refresh-Ahead 缓存策略、缓存空结果技术和过期时间浮动技术等策略，这些策略有助于优化缓存性能，同时保持数据可用性。 此外，Dragonfly 的通用 LFRU 驱逐策略和高可用性选项已被强调为增强缓存弹性的强大工具。 通过结合这些策略并利用 Dragonfly 的功能，您可以创建强大的缓存解决方案，不仅可以减少常见的陷阱，还可以确保高可用性，保护您的系统免受与缓存相关的中断。 在 **使用 Dragonfly 进行开发系列的未来部分中，我们将总结我们尚未介绍的所有其他缓存策略和技术。**
 
-[通过几分钟来运行 Dragonfly](https://www.dragonflydb.io/docs/getting-started) 来探索它，并加入我们的社区与我们分享您的反馈和想法。 与 Dragonfly 一起快乐构建，下次再见！
+[通过几分钟来运行 Dragonfly](/docs/getting-start/README.md) 来探索它，并加入我们的社区与我们分享您的反馈和想法。 与 Dragonfly 一起快乐构建，下次再见！
 

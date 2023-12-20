@@ -3,7 +3,7 @@
 
 [Joe Zhou](https://www.dragonflydb.io/blog/authors/joe-zhou)  2023 年 8 月 30 日
 
-![image](images/AKXBNRMZXIrzmhbl76CMKkMxd_iKO86xzpWAVCf6hfE.png)
+![image](/images/AKXBNRMZXIrzmhbl76CMKkMxd_iKO86xzpWAVCf6hfE.png)
 
 ## 介绍
 在 Web 应用程序开发（或涉及后端服务器的任何其他应用程序）领域，对最佳性能的追求通常与有效管理数据检索的挑战相交叉。 想象一个场景，Web 应用程序的任务是从其主数据库中获取大量数据：用户配置文件、博客文章、产品详细信息、交易历史记录等。 这些对主数据库的查询将不可避免地引起显着的延迟，从而导致糟糕的用户体验，并可能将数据库推向它的性能极限。
@@ -31,7 +31,7 @@ Redis 传统上扮演着集中式缓存服务的角色，提供无缝的数据�
 
 当我们深入研究代码和概念的复杂性时，维护 Cache-Aside 模式的可视化是很有价值的。 在不确定或思维有点混乱的时候，此图可以作为坚定的参考点。
 
-![image](images/KRFnREKP4L6A8LQ9JiDC3YN7nWtPdFZeDzxqIU33mt0.png)
+![image](/images/KRFnREKP4L6A8LQ9JiDC3YN7nWtPdFZeDzxqIU33mt0.png)
 
 ### 2\. 连接 Dragonfly
 首先，让我们创建一个与 Dragonfly 对话的客户端：
@@ -189,7 +189,7 @@ func main() {
     }
 }
 ```
-但是，在运行 `main` 函数之前，我们不要忘记另一个重要步骤：在本地启动 Dragonfly 实例。 有多种选项可用于 [快速启动并运行 Dragonfly](https://www.dragonflydb.io/docs/getting-started)。 在本教程中，使用下面的 `docker-compose.yml` 文件以及 `docker compose up` 命令，我们将在本地运行一个 Dragonfly 实例。
+但是，在运行 `main` 函数之前，我们不要忘记另一个重要步骤：在本地启动 Dragonfly 实例。 有多种选项可用于 [快速启动并运行 Dragonfly](/docs/getting-start/README.md)。 在本教程中，使用下面的 `docker-compose.yml` 文件以及 `docker compose up` 命令，我们将在本地运行一个 Dragonfly 实例。
 
 ```Plain Text
 version: '3'
@@ -221,7 +221,7 @@ dragonfly$> GET /blogs/1000_GET_body
 "{\"id\":\"1000\",\"content\":\"This is a micro-blog limited to 140 characters.\"}"
 ```
 ### 8\. 回顾 - 缓存读取和缓存读取写入路径
-现在，让我们追溯到 [Cache-Aside 模式说明](https://www.dragonflydb.io/blog/developing-with-dragonfly-part-01-cache-aside#1-the-cache-aside-pattern)，重点关注读取路径：< /span>
+现在，让我们追溯到 [Cache-Aside 模式说明](/blogs/developing-with-dragonfly-part-01-cache-aside.md#1-cache-aside-模式)，重点关注读取路径：< /span>
 
 * 发起 HTTP GET 请求。
 * 熟练的缓存中间件会介入，在处理程序执行之前将自身定位，并尝试从 Dragonfly 读取数据。
@@ -240,7 +240,7 @@ dragonfly$> GET /blogs/1000_GET_body
 在这篇博文中，我们创建了一个带有 Dragonfly 支持的缓存层的服务应用程序。 正如我们所看到的，Fiber 作者为中间件设计了一个通用存储接口。 这意味着许多内存数据存储可以调整并用作后备存储。 这一发现自然引发了一个问题：既然有多种可用选项，为什么 Dragonfly 是现代缓存的最佳选择？
 
 ### 内存效率和内存效率超高吞吐量
-传统的哈希表是建立在动态链表数组之上的，[Dragonfly 的 Dashtable](https://github.com/dragonflydb/dragonfly/blob/main/docs/dashtable.md) 是一个动态数组大小恒定的平面哈希表。 这种设计可实现更高的内存效率，从而使稳态内存使用量减少多达 30%，如 [Redis 与 Dragonfly 可扩展性和性能博客文章中详细介绍的](https://www.dragonflydb.io/blog/scaling-performance-redis-vs-dragonfly)。
+传统的哈希表是建立在动态链表数组之上的，[Dragonfly 的 Dashtable](/docs/architecture-and-features/dashtable.Zh_CN.md) 是一个动态数组大小恒定的平面哈希表。 这种设计可实现更高的内存效率，从而使稳态内存使用量减少多达 30%，如 [Redis 与 Dragonfly 可扩展性和性能博客文章中详细介绍的](/blogs/scaling-performance-redis-vs-dragonfly.md)。
 
 同时，得益于 Dragonfly 的先进架构，单个 AWS EC2 `c6gn.16xlarge` 实例的吞吐量可飙升至惊人的 400 万次操作/秒。
 
@@ -258,7 +258,7 @@ dragonfly$> GET /blogs/1000_GET_body
 
 尽管我们没有深入讨论缓存替换策略，特别是在写操作的上下文中， **使用 Dragonfly 进行开发** 系列即将发布的博客文章将探索更高级的缓存模式来解决这个问题。
 
-请继续关注我们即将发布的帖子，了解更多见解。 一如既往，[几分钟内即可开始使用 Dragonfly](https://www.dragonflydb.io/docs/getting-started)，祝您构建愉快，直到我们再次见面！
+请继续关注我们即将发布的帖子，了解更多见解。 一如既往，[几分钟内即可开始使用 Dragonfly](/docs/getting-start/)，祝您构建愉快，直到我们再次见面！
 
 ---
 ## 附录
