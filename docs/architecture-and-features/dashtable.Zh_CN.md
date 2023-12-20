@@ -140,4 +140,4 @@ memtier_benchmark --ratio 1:0 -n 600000 --threads=2 -c 20 --distinct-client-seed
 
 <br>
 
-*本文档中的所有图标都是在[drawio app](https://app.diagrams.net/)中创建的*
+*本文档中的所有图表都是在[drawio app](https://app.diagrams.net/)中创建的*
