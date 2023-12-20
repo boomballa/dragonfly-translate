@@ -112,7 +112,7 @@ flag | 参数
 transaction | 事务
 socket | 网络嵌套字
 SnapshotShard | 快照分片
-
+Bloom Filter | 布隆过滤器
 
 
 
