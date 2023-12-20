@@ -1,4 +1,8 @@
 # 宣布 Dragonfly Kubernetes Operator 全面可用
+我们很高兴地宣布 Dragonfly Kubernetes Operator 全面可用。
+
+[Tarun Pothulapati](https://www.dragonflydb.io/blog/authors/tarun-pothulapati)  2023 年 11 月 6 日
+
 ![image](../images/qTvbdy1dSYVqJL82gyAluN48op4s6TPRrWyEyzxiSY8.png)
 
 ## 介绍

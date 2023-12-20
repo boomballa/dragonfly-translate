@@ -1,4 +1,8 @@
 # Dragonfly 内存数据库现在支持复制以实现高可用性
+Dragonfly 是一款内存数据库，可以直接替代 Redis，现在在其 1.0 版本中支持复制以实现高可用性。
+
+[Adi Holdengreber](https://www.dragonflydb.io/blog/authors/adi-holdengreber)   2023 年 5 月 23 日
+
 ![image](../images/tijrR6u5OP6U3C5b5rc2mHeYLRwz9F5Eofvzzn49gEM.png)
 
 Dragonfly 是一种高性能内存数据库，可以作为 Redis 的直接替代品。Dragonfly 1.0 版本已做好生产准备，包括数据库复制，可以轻松从 Redis 迁移并适合高可用性部署。

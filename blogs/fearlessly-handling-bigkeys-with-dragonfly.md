@@ -1,6 +1,8 @@
 # 使用 Dragonfly 无所畏惧地处理 BigKey
 当使用 Dragonfly（突破性的内存数据存储）时，与 BigKeys 较量几乎不是问题。如果您的服务器应用程序需要 BigKey，您可以无所畏惧地在 Dragonfly 中使用 BigKey。
 
+[Joe Zhou](https://www.dragonflydb.io/blog/authors/joe-zhou)  2023 年 8 月 15 日
+
 ![image](../images/IvvdIUw2jNwqwhU7V2icvue5vCDB09IGYmY2VTNG4oo.png)
 
 ## 介绍

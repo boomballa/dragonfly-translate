@@ -1,6 +1,8 @@
 # 监控内存数据库
 这篇博文介绍了监控内存数据存储，重点关注 Dragonfly。了解如何使用 Prometheus 和 Grafana 监控 Dragonfly 指标并在仪表板上可视化它们。探索内存消耗、客户端指标、服务器指标等。
 
+[Tarun Pothulapati](https://www.dragonflydb.io/blog/authors/tarun-pothulapati)  2023 年 6 月 21 日
+
 ![image](../images/AEo3KhXtTgNQlaA_oXjxSmM7P9ICeU_3p7oKufMbxzg.png)
 
 ## **介绍**

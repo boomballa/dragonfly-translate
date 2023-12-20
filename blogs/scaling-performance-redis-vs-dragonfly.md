@@ -1,6 +1,8 @@
 # Redis 与 Dragonfly 的可扩展性和性能
 Redis 和 Dragonfly 之间的吞吐量、延迟和内存利用率的全面基准比较。
 
+[罗曼·格什曼](https://www.dragonflydb.io/blog/authors/roman-gershman)  2023 年 2 月 27 日
+
 ![image](../images/H9C-n16SYjqyRbQoFvgPHtA7Uvt7EHRvZvt0ycsAm3Q.png)
 
 内存数据库已成为支撑现代、面向性能的应用程序的最重要的基础设施之一。Redis 因其简单性而成为其中最受欢迎的——它设置快速、易于使用并且可扩展以满足不断增长的业务的需求。

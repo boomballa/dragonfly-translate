@@ -1,9 +1,7 @@
 # 平衡与不平衡
 平衡在生活中至关重要。当我们的注意力仅限于改善生活的某个方面时，我们就会削弱整个系统。
 
-[罗曼·格什曼](https://www.dragonflydb.io/blog/authors/roman-gershman)
-
-2022 年 10 月 30 日
+[罗曼·格什曼](https://www.dragonflydb.io/blog/authors/roman-gershman)  2022 年 10 月 30 日
 
 ![image](../images/BxKH_NGUasQ8sfRm1IqA79J1GjSmDWr5oM-soaafuA4.png)
 
