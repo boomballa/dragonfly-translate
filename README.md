@@ -102,6 +102,7 @@ coordinator | 协调器
 fiber | 纤程
 blob | 二进制类型的大对象
 score | 分数
+goroutine | 去程，计算过程
 
 
 ### 说明并翻译的名词
