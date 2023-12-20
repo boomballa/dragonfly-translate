@@ -64,6 +64,7 @@
   * [使用Dragonfly无所畏惧地处理BigKey](/blogs/fearlessly-handling-bigkeys-with-dragonfly.md) (2023年8月15日)
   * [监控内存数据库](/blogs//monitoring-in-memory-datastores.md) (2023年6月21日)
   * [Dragonfly内存数据库现在支持复制以实现高可用性](/blogs/replication-for-high-availability.md) (2023年5月23日)
+  * [使用 Dragonfly 构建后台处理管道](/blogs/building-a-background-processing-pipeline-with-dragonfly.md) (2023年4月5日)
   * [Redis与Dragonfly的可扩展性和性能](/blogs/scaling-performance-redis-vs-dragonfly.md) (2023年2月27日)
   * [平衡与不平衡](/blogs/balanced-vs-unbalanced.md) (2022年10月30日)
 
