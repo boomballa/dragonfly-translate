@@ -288,7 +288,8 @@ sent data and generated task 7da24e60-f33b-4690-9262-6408ac85a9ef for worker
 当生产者应用程序发送模拟用户数据时，工作应用程序将对其进行处理并发送电子邮件。要检查电子邮件，请使用浏览器导航至 SMTP 服务器的用户界面 -`http://localhost:1080/`
 
 ![image](/images/XwbX03tiR7KISv0Z5DcmXWSfOTkhNAVfF6B7nRdyO6E.png)
-<center>worker 应用程序发送的电子邮件</center>  
+<p style="text-align: center;"> worker 应用程序发送的电子邮件</p>
+<center>  worker 应用程序发送的电子邮件 </center>  
 
 现在是了解 Dragonfly 的好时机。由于它在 Docker 容器中本地运行，因此我们可以使用`redis-cli`. 连接后，检查一个名为 `celery` 的 key， 这是充当队列来保存最终由工作应用程序处理的用户注册事件的列表。
 
