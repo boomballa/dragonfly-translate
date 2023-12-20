@@ -1,12 +1,12 @@
 # 使用 Dragonfly 构建后台处理管道
-在这篇博文中，您将学习如何使用 Redis 列表通过 Dragonfly 构建后台处理 pipline。
+在这篇博文中，您将学习如何使用 Redis 列表通过 Dragonfly 构建后台处理管道。
 
 [阿里·肖特兰](https://www.dragonflydb.io/blog/authors/ari-shotland)  2023 年 4 月 5 日
 
 ![image](/images/-_qJT8jN4wk07cj1MdY_6kESyi6v-xxc8udKLTX4O_M.png)
 
 ## 介绍
-在这篇博文中，您将学习如何使用 [Redis 列表](https://redis.io/docs/data-types/lists/) 用 [Dragonfly](https://www.dragonflydb.io/) 构建后台处理 pipline。
+在这篇博文中，您将学习如何使用 [Redis 列表](https://redis.io/docs/data-types/lists/) 用 [Dragonfly](https://www.dragonflydb.io/) 构建后台处理管道。
 
 Dragonfly 是专为现代应用程序工作负载构建的内存数据存储。它与 Redis 和 Memcached API 完全兼容，可提供 25 倍以上的吞吐量、更高的缓存命中率、更低的尾部延迟以及轻松的垂直可扩展性。
 
@@ -19,11 +19,11 @@ Dragonfly 是专为现代应用程序工作负载构建的内存数据存储。�
 2. 模拟网站用户注册过程的生产者应用程序。
 3. 处理这些用户注册请求并发送欢迎电子邮件的工作应用程序。
 
-生产者和工作人员应用程序都是用 Go 编写的，并使用 \_gocelery\_ 库。gocelery库可让您在 Go\_中\_实现 celery 工作程序并提交 celery 任务。
+生产者和工作人员应用程序都是用 Go 编写的，并使用 *gocelery* 库。gocelery库可让您在 *Go* 中实现 celery 工作程序并提交 celery 任务。
 
-\_gocelery\_在幕后使用 Redis List，这样我们就不必在应用程序中处理它。相反，\_gocelery\_ 库为我们提供了一个简化的 API 来提交和处理需要异步处理的任务。
+*gocelery* 在幕后使用 Redis List，这样我们就不必在应用程序中处理它。相反，*gocelery* 库为我们提供了一个简化的 API 来提交和处理需要异步处理的任务。
 
-或者，您可以使用 go-worker 或任何 Go Redis 客户端来使用普通 Redis List 命令（`LPUSH` 和 `BRPOP` 的组合）来实现此目的。
+或者，您可以使用 *go-worker* 或任何 *Go Redis* 客户端来使用普通 Redis List 命令（`LPUSH` 和 `BRPOP` 的组合）来实现此目的。
 
 ### 生产者应用
 我们从生产者应用程序开始，它生成假用户注册并将其添加到任务队列中。
@@ -299,7 +299,7 @@ sent data and generated task 7da24e60-f33b-4690-9262-6408ac85a9ef for worker
 ```
 在电子邮件的末尾，您会注意到`[processed by worker-<random uuid>]`。下一节将详细介绍这一点。
 
-### 扩展后台处理 pipline
+### 扩展后台处理管道
 使用列表允许我们通过简单地添加更多工作应用程序来水平扩展处理管道。要启动工作应用程序的另一个实例：
 
 ```Plain Text
