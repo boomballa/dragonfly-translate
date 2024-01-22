@@ -57,6 +57,7 @@
   * [Clickhouse](/docs/integrations/Clickhouse.md)
   * [Feast](/docs/integrations/Feast.md)
 * [博客精选](/blogs/)
+  * [使用 Dragonfly 实时扩展排行榜](/blogs/scaling-real-time-leaderboards-with-dragonfly.md) (2024年1月18日)
   * [使用 Dragonfly 构建电商应用程序](/blogs/building-ecommerce-applications-with-dragonfly.md) (2023年11月16日)
   * [宣布Dragonfly Kubernetes Operator全面可用](/blogs/announcing-kubernetes-operator-general-availability.md) (2023年11月6日)
   * [使用 Dragonfly 进行开发：解决缓存问题](/blogs/developing-with-dragonfly-part-02-solve-caching-problems.md) (2023年9月13日)
